@@ -1,8 +1,9 @@
-# Analytiic 
+# Analytic 
 
 Сервис на Go для сбора аналитики с лендиногов и экспорта в CSV
 
 Main: Chi + pgx 
+
 WEB UI: Vue.js 
 
 ## Запуск 
