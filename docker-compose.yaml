@@ -1,0 +1,49 @@
+version: '3.4'
+
+services:
+  analytic:
+    image: analytic
+    networks:
+      - temp_engine_net
+    build:
+      context: ./analytic
+      dockerfile: ./Dockerfile
+    restart: always
+    ports:
+      - "8084:8084"
+    depends_on:
+      - database
+
+
+  analytic-ui:
+    image: analytic-ui
+    networks:
+      - temp_engine_net
+    build:
+      context: ./analytic/ui
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - analytic
+
+  database: 
+    image: postgres
+    restart: always
+    networks:
+      - temp_engine_net
+    environment:
+      POSTGRES_USER: temp_engine
+      POSTGRES_PASSWORD: Suwn38dW2idml
+      POSTGRES_DB: temp_engine
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+  
+volumes:
+  postgres:
+
+networks:
+  temp_engine_net:
+    driver: bridge
