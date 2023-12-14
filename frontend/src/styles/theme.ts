@@ -1,0 +1,33 @@
+export const breakpoints = {
+  mobileXs: 320,
+  mobileSm: 360,
+  mobileSm375: 375,
+  mobileMd: 480,
+  mobileLg: 600,
+  mobileXlg: 640,
+  tabletSm: 768,
+  tabletMd: 992,
+  tabletLg: 1024,
+  desktopXs: 1200,
+  desktopSm: 1280,
+  desktopMd: 1368,
+  desktopLg: 1440,
+  desktopXlg: 1536,
+};
+
+export const mq = {
+  mobileXs: `@media screen and (min-width: ${breakpoints.mobileXs}px)`,
+  mobileSm: `@media screen and (min-width: ${breakpoints.mobileSm}px)`,
+  mobileSm375: `@media screen and (min-width: ${breakpoints.mobileSm375}px)`,
+  mobileMd: `@media screen and (min-width: ${breakpoints.mobileMd}px)`,
+  mobileLg: `@media screen and (min-width: ${breakpoints.mobileLg}px)`,
+  mobileXlg: `@media screen and (min-width: ${breakpoints.mobileXlg}px)`,
+  tabletSm: `@media screen and (min-width: ${breakpoints.tabletSm}px)`,
+  tabletMd: `@media screen and (min-width: ${breakpoints.tabletMd}px)`,
+  tabletLg: `@media screen and (min-width: ${breakpoints.tabletLg}px)`,
+  desktopXs: `@media screen and (min-width: ${breakpoints.desktopXs}px)`,
+  desktopSm: `@media screen and (min-width: ${breakpoints.desktopSm}px)`,
+  desktopMd: `@media screen and (min-width: ${breakpoints.desktopMd}px)`,
+  desktopLg: `@media screen and (min-width: ${breakpoints.desktopLg}px)`,
+  desktopXlg: `@media screen and (min-width: ${breakpoints.desktopXlg}px)`,
+};
