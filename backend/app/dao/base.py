@@ -1,7 +1,7 @@
 from sqlalchemy import select, insert
 
 from app.db import sync_session_factory
-from models.models import Role, User, Button, Bookmaker, BlockHeader
+from models.models import Role, User, Button, Bookmaker, BlockHeader, Landing, TermsPopup
 
 """
 from models.models import TypeButtons, InfoLendings, Banners, MedialSocials, Users, UserItems, Items
@@ -47,5 +47,11 @@ class ButtonDao(BaseDao):
 class BookmakerDao(BaseDao):
     model = Bookmaker
 
+class TermsDao(BaseDao):
+    model = TermsPopup
+
 class HeaderDao(BaseDao):
     model = BlockHeader
+
+class LandingDao(BaseDao):
+    model = Landing

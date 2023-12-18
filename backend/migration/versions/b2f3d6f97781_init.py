@@ -1,8 +1,8 @@
-"""#2 -> fix
+"""init
 
-Revision ID: bcb5d5703253
-Revises: ad816ef90f05
-Create Date: 2023-12-16 16:52:30.085745
+Revision ID: b2f3d6f97781
+Revises: 
+Create Date: 2023-12-19 00:40:22.905469
 
 """
 from typing import Sequence, Union
@@ -12,8 +12,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'bcb5d5703253'
-down_revision: Union[str, None] = 'ad816ef90f05'
+revision: str = 'b2f3d6f97781'
+down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
@@ -44,8 +44,18 @@ def upgrade() -> None:
     sa.Column('url', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('buttons',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('bg_color', sa.String(), nullable=True),
+    sa.Column('text', sa.String(), nullable=True),
+    sa.Column('text_color', sa.String(), nullable=True),
+    sa.Column('url', sa.String(), nullable=True),
+    sa.Column('analytics_endpoint', sa.String(), nullable=True),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('interactive_cards',
     sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('title_interactive_card', sa.String(), nullable=False),
     sa.Column('key', sa.String(), nullable=True),
     sa.Column('img', sa.String(), nullable=True),
     sa.Column('text', sa.String(), nullable=True),
@@ -66,6 +76,7 @@ def upgrade() -> None:
     )
     op.create_table('success_popups',
     sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('title', sa.String(), nullable=False),
     sa.Column('bg_color', sa.String(), nullable=True),
     sa.Column('text', sa.String(), nullable=True),
     sa.Column('text_color', sa.String(), nullable=True),
@@ -76,17 +87,13 @@ def upgrade() -> None:
     )
     op.create_table('terms_popups',
     sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('title', sa.String(), nullable=False),
     sa.Column('bg_color', sa.String(), nullable=True),
     sa.Column('text', sa.String(), nullable=True),
     sa.Column('text_color', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('type_bonuses',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(), nullable=False),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_table('type_buttons',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=False),
     sa.PrimaryKeyConstraint('id')
@@ -102,52 +109,10 @@ def upgrade() -> None:
     sa.Column('currency', sa.String(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('variant_buttons',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(), nullable=False),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_table('block_footers',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('logo', sa.String(), nullable=True),
-    sa.Column('bg_color', sa.String(), nullable=True),
-    sa.Column('bookmaker_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['bookmaker_id'], ['bookmakers.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_table('block_headers',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('logo', sa.String(), nullable=True),
-    sa.Column('bg_color', sa.String(), nullable=True),
-    sa.Column('bookmaker_id', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['bookmaker_id'], ['bookmakers.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_table('buttons',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('bg_color', sa.String(), nullable=True),
-    sa.Column('text', sa.String(), nullable=True),
-    sa.Column('text_color', sa.String(), nullable=True),
-    sa.Column('url', sa.String(), nullable=True),
-    sa.Column('analytics_endpoint', sa.String(), nullable=True),
-    sa.Column('type_id', sa.Integer(), nullable=True),
-    sa.Column('variant_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['type_id'], ['type_buttons.id'], ),
-    sa.ForeignKeyConstraint(['variant_id'], ['variant_buttons.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_table('users',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('role_id', sa.Integer(), nullable=True),
-    sa.Column('username', sa.String(), nullable=True),
-    sa.Column('selection_date', sa.Date(), nullable=True),
-    sa.ForeignKeyConstraint(['role_id'], ['roles.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
     op.create_table('banner_buttons',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('button_id', sa.Integer(), nullable=False),
     sa.Column('banner_id', sa.Integer(), nullable=False),
+    sa.Column('button_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['banner_id'], ['banners.id'], ),
     sa.ForeignKeyConstraint(['button_id'], ['buttons.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -159,6 +124,24 @@ def upgrade() -> None:
     sa.Column('title_color', sa.String(), nullable=True),
     sa.Column('button_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['button_id'], ['buttons.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('block_footers',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('title_block_footer', sa.String(), nullable=True),
+    sa.Column('logo', sa.String(), nullable=True),
+    sa.Column('bg_color', sa.String(), nullable=True),
+    sa.Column('bookmaker_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['bookmaker_id'], ['bookmakers.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('block_headers',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('title', sa.String(), nullable=False),
+    sa.Column('logo', sa.String(), nullable=True),
+    sa.Column('bg_color', sa.String(), nullable=True),
+    sa.Column('bookmaker_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['bookmaker_id'], ['bookmakers.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('bonuses',
@@ -192,30 +175,24 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['value_bonus_id'], ['value_bonuses.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('footer_socials',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('footer_id', sa.Integer(), nullable=False),
-    sa.Column('social_id', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['footer_id'], ['block_footers.id'], ),
-    sa.ForeignKeyConstraint(['social_id'], ['socials.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
     op.create_table('interactive',
     sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('title_interactive', sa.String(), nullable=False),
     sa.Column('reset_button_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['reset_button_id'], ['buttons.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('user_selections',
+    op.create_table('users',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('bookmaker_id', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['bookmaker_id'], ['bookmakers.id'], ),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
+    sa.Column('role_id', sa.Integer(), nullable=True),
+    sa.Column('username', sa.String(), nullable=True),
+    sa.Column('selection_date', sa.Date(), nullable=True),
+    sa.ForeignKeyConstraint(['role_id'], ['roles.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('add_blocks',
     sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('title', sa.String(), nullable=False),
     sa.Column('bg_color', sa.String(), nullable=True),
     sa.Column('block_bonus_id', sa.Integer(), nullable=True),
     sa.Column('block_content_id', sa.Integer(), nullable=True),
@@ -225,15 +202,14 @@ def upgrade() -> None:
     )
     op.create_table('block_mains',
     sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('title', sa.String(), nullable=False),
     sa.Column('bg_color', sa.String(), nullable=True),
     sa.Column('text', sa.String(), nullable=True),
     sa.Column('text_color', sa.String(), nullable=True),
     sa.Column('interactive_id', sa.Integer(), nullable=True),
-    sa.Column('participation_button_id', sa.Integer(), nullable=True),
-    sa.Column('terms_button_id', sa.Integer(), nullable=True),
+    sa.Column('buttons_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['buttons_id'], ['buttons.id'], ),
     sa.ForeignKeyConstraint(['interactive_id'], ['interactive.id'], ),
-    sa.ForeignKeyConstraint(['participation_button_id'], ['buttons.id'], ),
-    sa.ForeignKeyConstraint(['terms_button_id'], ['buttons.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('bonus_block_bonuses',
@@ -252,6 +228,14 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['contest_id'], ['contests.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('footer_socials',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('footer_id', sa.Integer(), nullable=False),
+    sa.Column('social_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['footer_id'], ['block_footers.id'], ),
+    sa.ForeignKeyConstraint(['social_id'], ['socials.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('interactive_interactive_cards',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('interactive_card_id', sa.Integer(), nullable=False),
@@ -260,9 +244,18 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['interactive_id'], ['interactive.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('user_selections',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('bookmaker_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['bookmaker_id'], ['bookmakers.id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('landings',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(), nullable=False),
+    sa.Column('slug', sa.String(), nullable=True),
     sa.Column('info_json', sa.JSON(), nullable=True),
     sa.Column('block_terms_id', sa.Integer(), nullable=True),
     sa.Column('block_headers_id', sa.Integer(), nullable=True),
@@ -288,32 +281,30 @@ def upgrade() -> None:
 def downgrade() -> None:
     # ### commands auto generated by Alembic - please adjust! ###
     op.drop_table('landings')
+    op.drop_table('user_selections')
     op.drop_table('interactive_interactive_cards')
+    op.drop_table('footer_socials')
     op.drop_table('contest_block_contests')
     op.drop_table('bonus_block_bonuses')
     op.drop_table('block_mains')
     op.drop_table('add_blocks')
-    op.drop_table('user_selections')
+    op.drop_table('users')
     op.drop_table('interactive')
-    op.drop_table('footer_socials')
     op.drop_table('contests')
     op.drop_table('bonuses')
-    op.drop_table('block_contests')
-    op.drop_table('banner_buttons')
-    op.drop_table('users')
-    op.drop_table('buttons')
     op.drop_table('block_headers')
     op.drop_table('block_footers')
-    op.drop_table('variant_buttons')
+    op.drop_table('block_contests')
+    op.drop_table('banner_buttons')
     op.drop_table('value_bonuses')
     op.drop_table('type_sports')
-    op.drop_table('type_buttons')
     op.drop_table('type_bonuses')
     op.drop_table('terms_popups')
     op.drop_table('success_popups')
     op.drop_table('socials')
     op.drop_table('roles')
     op.drop_table('interactive_cards')
+    op.drop_table('buttons')
     op.drop_table('bookmakers')
     op.drop_table('block_bonuses')
     op.drop_table('banners')

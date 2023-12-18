@@ -1,6 +1,8 @@
 from typing import Literal, ClassVar
 
-from pydantic import AnyUrl, field_validator, PostgresDsn, RedisDsn
+from pydantic import AnyUrl, PostgresDsn
+from pydantic import field_validator
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from ipaddress import IPv4Address
 
@@ -34,7 +36,7 @@ class Settings(BaseSettings):
     def database_url(self):
         return f"{self.DB_SCHEMES}://{self.DB_USER}:{self.DB_PASS}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
 
-    model_config = SettingsConfigDict(env_file=".env")
+    model_config = SettingsConfigDict(env_file=".env", from_attributes=True)
 
 settings = Settings(MODE="LOCAL", LOG_LEVEL="DEBUG")
 

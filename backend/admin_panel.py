@@ -5,12 +5,14 @@ from app.view.block_footer_view import ModelViewBlockFooter
 from app.view.block_header_view import ModelViewBlockHeader
 from app.view.interactive_card_view import ModelViewInteractiveCard
 from app.view.social_view import ModelViewSocial
+from app.view.landing_view import ModelViewLanding
+
 from app.view.success_popup_view import ModelViewSuccessPopup
 from config import settings
-from app.dao.base import ButtonDao
+from app.dao.base import ButtonDao, LandingDao
 
 from models.models import Role, Bonus, Banner, Button, ValueBonus, TypeBonus, \
-    BlockBonus, User, UserSelection, Bookmaker, VariantButton, Landing, TypeButton, BonusBlockBonus, BannerButton, \
+    BlockBonus, User, UserSelection, Bookmaker, Landing, BonusBlockBonus, BannerButton, \
     Social, BlockFooter, FooterSocial, Interactive, InteractiveCard, InteractiveInteractiveCard, BlockHeader, BlockMain, \
     AddBlock, SuccessPopup, TermsPopup
 
@@ -91,59 +93,45 @@ class ModelLending(ModelViewBase):
 
 
 class DashBoardView(AdminIndexView):
-    @expose('/')
+    @expose('/land')
     def add_data_db(self,):
-        all_buttons = ButtonDao.find_all()
-
-
-        return self.render('dashboard_index.html', all_buttons=all_buttons)
+        all_buttons = LandingDao.find_all()
+        print(all_buttons)
+        return all_buttons
 
 # TODO: добавить возможность загружать картинки в любом разрешение
 
 
-admin = Admin(app_flask, name='layout creator', template_mode='bootstrap3')#, index_view=DashBoardView(), endpoint='admin')
+admin = Admin(app_flask, name='Template Engine', template_mode='bootstrap3', index_view=DashBoardView(), endpoint='admin')
 
-admin.add_view(ModelViewBase(Landing, db.session, name="Лендос", category="Лендос/блоки"))
-admin.add_view(ModelViewBlockHeader(BlockHeader, db.session, name="Блок header", category="Лендос/блоки"))
-admin.add_view(ModelViewBase(BlockMain, db.session, name="Блок main", category="Лендос/блоки"))
-admin.add_view(ModelViewBlockBonus(BlockBonus, db.session, name="Блок бонусов", category="Лендос/блоки"))
-admin.add_view(ModelViewBlockFooter(BlockFooter, db.session, name="Блок футер", category="Лендос/блоки"))
-admin.add_view(ModelViewSuccessPopup(SuccessPopup, db.session, name="Блок success popup", category="Лендос/блоки"))
-admin.add_view(ModelViewBase(TermsPopup, db.session, name="Блок условий", category="Лендос/блоки"))
+admin.add_view(ModelViewBase(Button, db.session, name="Кнопка", category="Элементы"))
+admin.add_view(ModelViewBase(BannerButton, db.session, name="Кнопки для банера", category="Элементы"))
+admin.add_view(ModelViewBookmaker(Bookmaker, db.session, name="Букмекеры", category="Элементы"))
+admin.add_view(ModelViewBase(ValueBonus, db.session, name="Данные бонуса", category="Элементы"))
+admin.add_view(ModelViewBase(TypeBonus, db.session, name="Тип бонуса", category="Элементы"))
+admin.add_view(ModelViewBonus(Bonus, db.session, name="Бонусы", category="Элементы"))
+admin.add_view(ModelViewSocial(Social, db.session, name="Соц. сети", category="Элементы"))
+
+admin.add_view(ModelViewInteractiveCard(InteractiveCard, db.session, name="Карточки основного блока", category="Интерактивный блок"))
+admin.add_view(ModelViewBase(Interactive, db.session, name="Основной блок", category="Интерактивный блок"))
+admin.add_view(ModelViewBase(InteractiveInteractiveCard, db.session, name="Наполнение основного блока", category="Интерактивный блок"))
+
+admin.add_view(ModelViewBase(TermsPopup, db.session, name="Terms Popup", category="Блоки"))
+admin.add_view(ModelViewBlockHeader(BlockHeader, db.session, name="Block Headers", category="Блоки"))
+admin.add_view(ModelViewBanner(Banner, db.session, name="Banners", category="Блоки"))
+admin.add_view(ModelViewBase(BlockMain, db.session, name="Block Mains", category="Блоки"))
+admin.add_view(ModelViewSuccessPopup(SuccessPopup, db.session, name="Блок success popup", category="Блоки"))
+admin.add_view(ModelViewBlockBonus(BlockBonus, db.session, name="Block Bonuses", category="Блоки"))
+admin.add_view(ModelViewBase(BonusBlockBonus, db.session, name="Наполнение блока бонусов", category="Блоки"))
+admin.add_view(ModelViewBase(FooterSocial, db.session, name="Добавление соц. сетей для блока футер", category="Блоки"))
+admin.add_view(ModelViewBlockFooter(BlockFooter, db.session, name="Блок футер", category="Блоки"))
 
 
-# TODO: разобраться как работать с блоком бонусов
-admin.add_view(ModelViewBase(BonusBlockBonus, db.session, name="Наполнение блока бонусов", category="Наполнение блоков"))
-admin.add_view(ModelViewBase(FooterSocial, db.session, name="Добавление соц. сетей для блока футер", category="Наполнение блоков"))
-#admin.add_view(ModelViewBase(AddBlock, db.session, name="Блок бонусов", category="Блоки"))
-
+admin.add_view(ModelViewLanding(Landing, db.session, name="Лендинги"))
 
 admin.add_view(ModelViewBase(Role, db.session, name="Роли пользователей", category="Пользователи"))
 admin.add_view(ModelViewBase(User, db.session, name="Пользователи", category="Пользователи"))
 admin.add_view(ModelViewBase(UserSelection, db.session, name="Выбор пользователя", category="Пользователи"))
-
-
-admin.add_view(ModelViewBanner(Banner, db.session, name="Баннер", category="Баннер"))
-admin.add_view(ModelViewBase(BannerButton, db.session, name="Кнопки для банера", category="Баннер"))
-
-
-admin.add_view(ModelViewInteractiveCard(InteractiveCard, db.session, name="Карточки основного блока", category="Элементы основного блока"))
-admin.add_view(ModelViewBase(Interactive, db.session, name="Основной блок", category="Элементы основного блока"))
-admin.add_view(ModelViewBase(InteractiveInteractiveCard, db.session, name="Наполнение основного блока", category="Элементы основного блока"))
-
-
-admin.add_view(ModelViewBase(Button, db.session, name="Кнопка", category="Кнопки"))
-admin.add_view(ModelViewBase(TypeButton, db.session, name="Виды кнопок", category="Кнопки"))
-admin.add_view(ModelViewBase(VariantButton, db.session, name="Варианты кнопок", category="Кнопки"))
-
-admin.add_view(ModelViewBookmaker(Bookmaker, db.session, name="Букмекеры"))
-
-admin.add_view(ModelViewBonus(Bonus, db.session, name="Бонусы", category="Бонусы"))
-admin.add_view(ModelViewBase(ValueBonus, db.session, name="Данные бонуса", category="Бонусы"))
-admin.add_view(ModelViewBase(TypeBonus, db.session, name="Тип бонуса", category="Бонусы"))
-
-
-admin.add_view(ModelViewSocial(Social, db.session, name="Соц. сети", category="Соц. сети"))
 
 
 

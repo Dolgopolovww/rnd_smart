@@ -184,25 +184,6 @@ class Bookmaker(Base):
 
 
 
-class TypeButton(Base):
-    __tablename__ = 'type_buttons'
-
-    id: Mapped[intpk]
-    name: Mapped[str]
-
-    def __str__(self):
-        return self.name
-
-
-class VariantButton(Base):
-    __tablename__ = 'variant_buttons'
-
-    id: Mapped[intpk]
-    name: Mapped[str]
-
-    def __str__(self):
-        return self.name
-
 
 class Button(Base):
     __tablename__ = 'buttons'
@@ -213,11 +194,6 @@ class Button(Base):
     text_color: Mapped[Optional[str]]
     url: Mapped[Optional[str]]
     analytics_endpoint: Mapped[Optional[str]]
-    type_id: Mapped[Optional[int]] = mapped_column(ForeignKey('type_buttons.id'))
-    variant_id: Mapped[Optional[int]] = mapped_column(ForeignKey('variant_buttons.id'))
-
-    type_buttons: Mapped["TypeButton"] = relationship()
-    variant_buttons: Mapped["VariantButton"] = relationship()
 
     def __str__(self):
         return self.text
@@ -415,6 +391,7 @@ class Landing(Base):
 
     id: Mapped[intpk]
     title: Mapped[str]
+    slug: Mapped[Optional[str]]
     info_json: Mapped[Optional[dict|list]] = mapped_column(type_=JSON)
     block_terms_id: Mapped[Optional[str]] = mapped_column(ForeignKey('terms_popups.id'))
     block_headers_id: Mapped[Optional[int]] = mapped_column(ForeignKey('block_headers.id'))
