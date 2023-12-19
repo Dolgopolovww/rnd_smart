@@ -32,7 +32,7 @@ export interface MainBlock {
   bgColor: string;
   text: string;
   textColor: string;
-  interactive: Interactive[];
+  interactive: Interactive;
   participationBtn: ParticipationButton;
   termsBtn: TextButton | null;
 }

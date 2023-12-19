@@ -32,6 +32,10 @@ export const Main = forwardRef<HTMLDivElement>((_, ref) => {
     toggleSuccessModal();
     setIsUserParticipating(true);
   };
+  const interactiveBlockStyles = twJoin(
+    'h-[60px] m-lg:h-[80px] t-md:h-[120px] bg-[#00000008] rounded-[12px] p-[12px] pl-[20px] flex items-center justify-center grayscale transition-all border-solid border-transparent border-[3px]',
+    !isUserParticipating && 'hover:grayscale-0'
+  );
 
   return (
     <section
@@ -63,64 +67,67 @@ export const Main = forwardRef<HTMLDivElement>((_, ref) => {
         >
           {data?.mainBlock.text}
         </p>
-        {data?.mainBlock.interactive.map((interactive, index) => {
-          const interactiveBlockStyles = twJoin(
-            'h-[60px] m-lg:h-[80px] t-md:h-[120px] bg-[#00000008] rounded-[12px] p-[12px] pl-[20px] flex items-center justify-center grayscale transition-all border-solid border-transparent border-[3px]',
-            !isUserParticipating && 'hover:grayscale-0'
-          );
-          return (
-            <Fragment key={index}>
-              <div
-                className={twJoin(
-                  'grid grid-cols-2 t-md:grid-cols-4 gap-[12px] text-center will-change-contents',
-                  index > 0 && 'mt-[60px]'
+        {/* {data?.mainBlock.interactive.blocks.map((interactive, index) => { */}
+
+        {/* return ( */}
+
+        <div
+          className={twJoin(
+            'grid grid-cols-2 t-md:grid-cols-4 gap-[12px] text-center will-change-contents'
+            // index > 0 && 'mt-[60px]'
+          )}
+        >
+          {data?.mainBlock.interactive.blocks.map((block, index) => {
+            return (
+              <button
+                disabled={isUserParticipating}
+                onClick={() => handleUserSelection(block.key)}
+                className={twMerge(
+                  interactiveBlockStyles,
+                  userSelection?.includes(block.key) &&
+                    'border-[#cccccc] grayscale-0'
                 )}
+                key={index}
               >
-                {interactive.blocks.map((block, index) => (
-                  <button
-                    disabled={isUserParticipating}
-                    onClick={() => handleUserSelection(block.key)}
-                    className={twMerge(
-                      interactiveBlockStyles,
-                      userSelection?.includes(block.key) &&
-                        'border-[#cccccc] grayscale-0'
-                    )}
-                    key={index}
-                  >
-                    {block.img ? (
-                      <div className='relative w-[80px] h-[30px] m-lg:w-[102px] m-lg:h-[40px] t-md:w-[128px] t-md:h-[50px]'>
-                        <Image fill src={block.img} alt='' />
-                      </div>
-                    ) : (
-                      <p>{block.text}</p>
-                    )}
-                  </button>
-                ))}
-                {interactive.resetBtn && (
-                  <button
-                    disabled={isUserParticipating}
-                    onClick={resetUserSelection}
-                    className={twMerge(
-                      interactiveBlockStyles,
-                      userSelection?.length === 0 &&
-                        '!border-[#cccccc] grayscale-0'
-                    )}
-                  >
-                    {interactive.resetBtn?.img ? (
-                      <div className='relative w-[80px] h-[30px] m-lg:w-[102px] m-lg:h-[40px] t-md:w-[128px] t-md:h-[50px]'>
-                        <Image fill src={interactive.resetBtn.img} alt='' />
-                      </div>
-                    ) : (
-                      <p className='text-[16px] m-lg:text-[24px] font-[500] leading-[1.4]'>
-                        {interactive.resetBtn?.text}
-                      </p>
-                    )}
-                  </button>
+                {block.img ? (
+                  <div className='relative w-[80px] h-[30px] m-lg:w-[102px] m-lg:h-[40px] t-md:w-[128px] t-md:h-[50px]'>
+                    <Image fill src={block.img} alt='' />
+                  </div>
+                ) : (
+                  <p>{block.text}</p>
                 )}
-              </div>
-            </Fragment>
-          );
-        })}
+              </button>
+            );
+          })}
+
+          {data?.mainBlock.interactive.resetBtn && (
+            <button
+              disabled={isUserParticipating}
+              onClick={resetUserSelection}
+              className={twMerge(
+                interactiveBlockStyles,
+                userSelection?.length === 0 && '!border-[#cccccc] grayscale-0'
+              )}
+            >
+              {data?.mainBlock.interactive.resetBtn?.img ? (
+                <div className='relative w-[80px] h-[30px] m-lg:w-[102px] m-lg:h-[40px] t-md:w-[128px] t-md:h-[50px]'>
+                  <Image
+                    fill
+                    src={data?.mainBlock.interactive.resetBtn.img}
+                    alt=''
+                  />
+                </div>
+              ) : (
+                <p className='text-[16px] m-lg:text-[24px] font-[500] leading-[1.4]'>
+                  {data?.mainBlock.interactive.resetBtn?.text}
+                </p>
+              )}
+            </button>
+          )}
+        </div>
+
+        {/* ); */}
+        {/* })} */}
         <button
           onClick={handleSendData}
           disabled={!userSelection || isUserParticipating}

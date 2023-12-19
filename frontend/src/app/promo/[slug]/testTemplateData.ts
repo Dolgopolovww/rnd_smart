@@ -29,36 +29,34 @@ export const testTemplateData: LandingTemplate = {
     text: 'Хочешь получать еще больше эксклюзивных бонусов подходящих именно тебе?\nУкажи в каких букмекерских конторах ты уже делаешь ставки и участвуй в розыгрыше!',
     textColor: '#07e',
     bgColor: '#fff',
-    interactive: [
-      {
-        blocks: [
-          {
-            key: '1x',
-            text: null,
-            textColor: null,
-            img: 'https://bookmaker-ratings.ru/promo/championsleague/assets/1x.7f6b41ff.svg',
-          },
-          {
-            key: 'pari',
-            text: null,
-            textColor: null,
-            img: 'https://bookmaker-ratings.ru/promo/championsleague/assets/1x.7f6b41ff.svg',
-          },
-          {
-            key: 'leon',
-            text: null,
-            textColor: null,
-            img: 'https://bookmaker-ratings.ru/promo/championsleague/assets/1x.7f6b41ff.svg',
-          },
-        ],
-        resetBtn: {
-          key: 'test',
-          img: null,
-          text: 'Я не делаю ставки',
-          textColor: '#000',
+    interactive: {
+      blocks: [
+        {
+          key: '1x',
+          text: null,
+          textColor: null,
+          img: 'https://bookmaker-ratings.ru/promo/championsleague/assets/1x.7f6b41ff.svg',
         },
+        {
+          key: 'pari',
+          text: null,
+          textColor: null,
+          img: 'https://bookmaker-ratings.ru/promo/championsleague/assets/1x.7f6b41ff.svg',
+        },
+        {
+          key: 'leon',
+          text: null,
+          textColor: null,
+          img: 'https://bookmaker-ratings.ru/promo/championsleague/assets/1x.7f6b41ff.svg',
+        },
+      ],
+      resetBtn: {
+        key: 'test',
+        img: null,
+        text: 'Я не делаю ставки',
+        textColor: '#000',
       },
-    ],
+    },
     termsBtn: null,
     participationBtn: {
       analyticsEndpoint: 'test',
