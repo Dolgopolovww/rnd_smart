@@ -7,7 +7,7 @@ export default function Error({
 }) {
   return (
     <div>
-      <h2>pizdec</h2>
+      <h2>{error.message}</h2>
     </div>
   );
 }
