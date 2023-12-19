@@ -43,7 +43,7 @@ export const Main = forwardRef<HTMLDivElement>((_, ref) => {
         }
 
         .mainText {
-          color: ${data?.mainBlock.mainText.textColor};
+          color: ${data?.mainBlock.textColor};
         }
 
         .skewed {
@@ -61,7 +61,7 @@ export const Main = forwardRef<HTMLDivElement>((_, ref) => {
             'font-norms whitespace-pre-wrap text-[14px] m-lg:text-[18px] t-md:text-[24px] t-md mb-[36px] text-center t-md:text-left'
           )}
         >
-          {data?.mainBlock.mainText.text}
+          {data?.mainBlock.text}
         </p>
         {data?.mainBlock.interactive.map((interactive, index) => {
           const interactiveBlockStyles = twJoin(
@@ -126,7 +126,7 @@ export const Main = forwardRef<HTMLDivElement>((_, ref) => {
           disabled={!userSelection || isUserParticipating}
           style={{
             backgroundColor: data?.mainBlock.participationBtn.bgColor,
-            color: data?.mainBlock.participationBtn.text.textColor,
+            color: data?.mainBlock.participationBtn.textColor,
           }}
           className={twJoin(
             data?.mainBlock.participationBtn.variant === 'skewed' && 'skewed',
@@ -134,7 +134,7 @@ export const Main = forwardRef<HTMLDivElement>((_, ref) => {
           )}
         >
           <p className='text-[16px] m-lg:text-[20px] italic uppercase font-[800]'>
-            {data?.mainBlock.participationBtn.text.text}
+            {data?.mainBlock.participationBtn.text}
           </p>
         </button>
         {data?.mainBlock.termsBtn && (

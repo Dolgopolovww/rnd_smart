@@ -43,7 +43,7 @@ export const Hero = ({ onButtonClick }: { onButtonClick: () => void }) => {
                 'font-panton italic font-extrabold text-[24px] m-lg:text-[32px] t-md:text-[48px] max-w-[650px] uppercase'
               )}
             >
-              {data?.heroBlock.text.text}
+              {data?.heroBlock.text}
             </p>
             <div className='max-w-[280px] w-full flex items-center flex-col'>
               <button
@@ -65,7 +65,7 @@ export const Hero = ({ onButtonClick }: { onButtonClick: () => void }) => {
                     'italic text-[20px] uppercase font-[800] leading-[1.2]'
                   )}
                 >
-                  {data?.heroBlock.heroButton.text.text}
+                  {data?.heroBlock.heroButton.text}
                 </p>
               </button>
               {data?.heroBlock.termsBtn && (
@@ -93,7 +93,7 @@ export const Hero = ({ onButtonClick }: { onButtonClick: () => void }) => {
       </Container>
       <style jsx>{`
         .heroText {
-          color: ${data?.heroBlock.text.textColor || '#fff'};
+          color: ${data?.heroBlock.textColor || '#fff'};
         }
 
         .button {
@@ -102,7 +102,7 @@ export const Hero = ({ onButtonClick }: { onButtonClick: () => void }) => {
         }
 
         .button:hover {
-          background-color: ${data?.heroBlock.heroButton.text.textColor};
+          background-color: ${data?.heroBlock.heroButton.textColor};
 
           .buttonText {
             color: ${data?.heroBlock.heroButton.bgColor};
@@ -117,7 +117,7 @@ export const Hero = ({ onButtonClick }: { onButtonClick: () => void }) => {
         }
 
         .buttonText {
-          color: ${data?.heroBlock.heroButton.text.textColor};
+          color: ${data?.heroBlock.heroButton.textColor};
         }
 
         .termsButtonText {

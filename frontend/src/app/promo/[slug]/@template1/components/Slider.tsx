@@ -1,5 +1,5 @@
 'use client';
-import { AdCard } from '@/types/template';
+import { AdCard, Bonus } from '@/types/template';
 import { useWindowWidth } from '@react-hook/window-size';
 import Image from 'next/image';
 import { FC } from 'react';
@@ -8,7 +8,7 @@ import { Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 interface SliderProps {
-  items?: AdCard[];
+  items?: Bonus[];
 }
 
 export const Slider: FC<SliderProps> = ({ items }) => {
@@ -34,7 +34,8 @@ export const Slider: FC<SliderProps> = ({ items }) => {
       {!!items &&
         items.length > 0 &&
         items?.map((item, i) => {
-          const [bonusSum, currency] = item.value.text.split(' ');
+          const currency = item.value.currency;
+          const bonusSum = item.value.value;
           const bank = new Intl.NumberFormat('ru-RU', {
             style: 'decimal',
           }).format(Number(bonusSum));
@@ -42,7 +43,7 @@ export const Slider: FC<SliderProps> = ({ items }) => {
           return (
             <SwiperSlide key={i} className='font-norms'>
               <div
-                style={{ backgroundColor: item.bgColor }}
+                style={{ backgroundColor: item.bgColor || 'white' }}
                 className='bg-white overflow-hidden rounded-[16px] h-[370px]'
                 key={i}
               >
@@ -56,7 +57,8 @@ export const Slider: FC<SliderProps> = ({ items }) => {
                       alt=''
                     />
                   </div>
-                  {item.date && (
+                  {/* TODO: item.date */}
+                  {/* {item.date && (
                     <div
                       style={{ backgroundColor: item.date.bgColor }}
                       className='absolute rounded-bl-[8px] top-0 right-0 px-[8px] py-[4px]'
@@ -68,7 +70,7 @@ export const Slider: FC<SliderProps> = ({ items }) => {
                         {item.date.text.text}
                       </p>
                     </div>
-                  )}
+                  )} */}
                   <div className='absolute w-full px-[16px] items-center flex justify-between align-center bottom-[20px]'>
                     <div className='relative w-[100px] h-[35px]'>
                       <Image
@@ -80,7 +82,10 @@ export const Slider: FC<SliderProps> = ({ items }) => {
                       />
                     </div>
                     <p
-                      style={{ color: item.value.textColor }}
+                      style={{
+                        // TODO: textColor
+                        color: /*item.value.textColor*/ 'white' || 'white',
+                      }}
                       className='text-[18px] text-right font-[700]'
                     >
                       {bank} {currency}
@@ -90,39 +95,41 @@ export const Slider: FC<SliderProps> = ({ items }) => {
                 <div className='w-full px-[16px] absolute pb-[16px] bottom-0'>
                   <div className='mb-[8px]'>
                     <p
-                      style={{ color: item.type.textColor }}
+                      // TODO: name color
+                      style={{ color: /*item.typeBonus.name*/ 'white' }}
                       className='text-[14px] font-[600]'
                     >
-                      {item.type.text}
+                      {item.typeBonus.name}
                     </p>
                   </div>
                   <div className='mb-[16px]'>
                     <p
-                      style={{ color: item.text.textColor }}
+                      style={{ color: item.text }}
                       className='text-[18px] font-[700]'
                     >
-                      {item.text.text}
+                      {item.text}
                     </p>
                   </div>
                   <div className='flex gap-[8px]'>
-                    {item.buttons.map((el, index) => {
-                      return (
-                        <a
-                          href={el.url!}
-                          target='_blank'
-                          key={index}
-                          style={{
-                            backgroundColor: el.bgColor,
-                            color: el.text.textColor,
-                          }}
-                          className='h-[48px] flex justify-center items-center rounded-[8px] py-[8px] px-[16px] flex-1 text-center'
-                        >
-                          <p className='text-[16px] font-[700] leading-[1.3] text-ellipsis'>
-                            {el.text.text}
-                          </p>
-                        </a>
-                      );
-                    })}
+                    {/* TODO: buttons is array! */}
+                    {/* {item.buttons.map((el, index) => {
+                      return ( */}
+                    <a
+                      href={item.buttons.url!}
+                      target='_blank'
+                      // key={index}
+                      style={{
+                        backgroundColor: item.buttons.bgColor,
+                        color: item.buttons.textColor,
+                      }}
+                      className='h-[48px] flex justify-center items-center rounded-[8px] py-[8px] px-[16px] flex-1 text-center'
+                    >
+                      <p className='text-[16px] font-[700] leading-[1.3] text-ellipsis'>
+                        {item.buttons.text}
+                      </p>
+                    </a>
+                    {/* ); */}
+                    {/* })} */}
                   </div>
                 </div>
               </div>

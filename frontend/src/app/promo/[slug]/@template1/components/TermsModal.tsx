@@ -31,10 +31,10 @@ export const TermsModal = () => {
         </div>
         <div className='scrollbar-thin scrollbar-thumb-rounded-full overflow-auto scrollbar-thumb-[#0000001f] max-h-[720px] h-[calc(100vh-210px)] pr-[4px] m-lg:h-[calc(85vh-122px)] m-lg:pr-[14px]'>
           <p
-            style={{ color: termsPopupData?.text.textColor }}
+            style={{ color: termsPopupData?.textColor }}
             className='text-[16px] whitespace-pre-wrap'
           >
-            {termsPopupData?.text.text}
+            {termsPopupData?.text}
           </p>
         </div>
       </div>
