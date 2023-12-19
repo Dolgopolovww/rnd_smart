@@ -3,6 +3,7 @@ import { useTemplateStore } from '@/store/templateStore';
 import { LandingTemplate } from '@/types/template';
 import { notFound } from 'next/navigation';
 import { ReactNode } from 'react';
+import { testTemplateData } from './testTemplateData';
 
 const API_URL = 'http://localhost';
 const PORT = 5005;
@@ -14,19 +15,23 @@ interface LayoutProps {
 }
 
 const getData = async (slug: string): Promise<LandingTemplate | null> => {
-  const res = await fetch(
-    `${API_URL}:${PORT}/admin/land?` +
-      new URLSearchParams({
-        slug,
-      }),
-    // temporary disabled cache for testing
-    { cache: 'no-cache' }
-  );
-  if (!res.ok) {
-    // throw new Error('Failed to fetch data');
-  }
+  if (slug === 'test') {
+    return new Promise((res) => res(testTemplateData));
+  } else {
+    const res = await fetch(
+      `${API_URL}:${PORT}/admin/land?` +
+        new URLSearchParams({
+          slug,
+        }),
+      // temporary disabled cache for testing
+      { cache: 'no-cache' }
+    );
+    if (!res.ok) {
+      throw new Error('Failed to fetch data');
+    }
 
-  return res.json();
+    return res.json();
+  }
 };
 
 // TODO: generate meta
