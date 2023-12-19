@@ -1,4 +1,5 @@
 from sqlalchemy import select, insert
+from sqlalchemy.orm.sync import update
 
 from app.db import sync_session_factory
 from models.models import Role, User, Button, Bookmaker, BlockHeader, Landing, TermsPopup, JsonLanding
@@ -28,6 +29,16 @@ class BaseDao:
     def add(cls, **data):
         with sync_session_factory() as session:
             res = session.execute(insert(cls.model).values(**data))
+            session.commit()
+
+    @classmethod
+    def add_json(cls, json, slug):
+        with sync_session_factory() as session:
+            res = session.query(JsonLanding).filter_by(landing_slug=slug).first()
+            if res:
+                res.info_json = json
+            else:
+                session.execute(insert(JsonLanding).values(landing_slug=slug, info_json=json))
             session.commit()
 
 
