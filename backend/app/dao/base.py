@@ -1,5 +1,7 @@
 from sqlalchemy import select, insert
 from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy.orm.sync import update
+
 from app.db import sync_session_factory
 from models.models import Role, User, Button, Bookmaker, BlockHeader, Landing, TermsPopup, JsonLanding, Bonus, BonusBlockBonus, Social, FooterSocial, BlockFooter, InteractiveCard, Interactive, InteractiveInteractiveCard
 from schemas.schemas import BonusSchema, SocialSchema, InteractiveCardSchema
@@ -48,6 +50,15 @@ class BaseDao:
 
         session.commit()
 
+    @classmethod
+    def add_json(cls, json, slug):
+        with sync_session_factory() as session:
+            res = session.query(JsonLanding).filter_by(landing_slug=slug).first()
+            if res:
+                res.info_json = json
+            else:
+                session.execute(insert(JsonLanding).values(landing_slug=slug, info_json=json))
+            session.commit()
 
 def get_bonuses_for_block_bonus(block_bonus_id):
     with sync_session_factory() as session:
@@ -112,6 +123,8 @@ def get_blocks_for_interactive(interactive_id):
         data_res = json.loads(final_json)
 
         return data_res
+
+
 
 
 class RoleDao(BaseDao):
