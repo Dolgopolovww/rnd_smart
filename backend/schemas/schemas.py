@@ -37,6 +37,7 @@ class ButtonSchema(BaseModel):
     textColor: str = Field(alias='text_color')
     url: str
     analyticsEndpoint: str = Field(alias='analytics_endpoint')
+    variant: str
 class BannerSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id: int 
@@ -58,7 +59,7 @@ class InteractiveSchema(BaseModel):
     title_interactive: str
     reset_button_id: int
 
-    buttons: ButtonSchema
+    resetBtn: Optional[ButtonSchema] = Field(alias='buttons')
 
 class ValueBonusSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
@@ -127,7 +128,7 @@ class InteractiveCardSchema(BaseModel):
     key: str
     img: Optional[str]
     text: str
-    text_color: str
+    textColor: str = Field(alias='text_color')
 
 class BlockBonusSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
@@ -136,6 +137,7 @@ class BlockBonusSchema(BaseModel):
     logo: Optional[str]
     text: str
     textColor: str = Field(alias='text_color')
+    bgColor: str = Field(alias='bg_color')
 
 class BonusBlockBonus(BaseModel):
     model_config = ConfigDict(from_attributes=True)
@@ -163,14 +165,9 @@ class BlockMainSchema(BaseModel):
     textColor: str = Field(alias='text_color')
 
     interactive: InteractiveSchema
-    buttons: Optional[ButtonSchema] = Field(alias='button')
+    participationBtn: Optional[ButtonSchema] = Field(alias='button')
+    termsBtn: Optional[ButtonSchema] = Field(alias='terms_button')
 
-def to_camel_case(snake_str):
-    return "".join(x.capitalize() for x in snakestr.lower().split(""))
-
-def to_lower_camel_case(snake_str):
-    camel_string = to_camel_case(snake_str)
-    return snake_str[0].lower() + camel_string[1:]
 
 class LandingSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)

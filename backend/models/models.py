@@ -167,6 +167,7 @@ class BlockBonus(Base):
     logo: Mapped[Optional[str]]
     text: Mapped[Optional[str]]
     text_color: Mapped[Optional[str]]
+    bg_color: Mapped[Optional[str]]
 
     def __str__(self):
         return self.title_block_bonus
@@ -195,6 +196,7 @@ class Button(Base):
     text_color: Mapped[Optional[str]]
     url: Mapped[Optional[str]]
     analytics_endpoint: Mapped[Optional[str]]
+    variant: Mapped[Optional[str]]
 
     def __str__(self):
         return self.text
@@ -296,10 +298,13 @@ class BlockMain(Base):
     text_color: Mapped[Optional[str]]
     interactive_id: Mapped[Optional[int]] = mapped_column(ForeignKey('interactive.id'))
     buttons_id: Mapped[Optional[int]] = mapped_column(ForeignKey('buttons.id'))
+    terms_btn_id: Mapped[Optional[int]] = mapped_column(ForeignKey('buttons.id'))
+
 
 
     interactive: Mapped["Interactive"] = relationship()
-    button: Mapped["Button"] = relationship()
+    button: Mapped["Button"] = relationship("Button", foreign_keys=[buttons_id])
+    terms_button: Mapped["Button"] = relationship("Button", foreign_keys=[terms_btn_id])
 
     def __str__(self):
         return self.title

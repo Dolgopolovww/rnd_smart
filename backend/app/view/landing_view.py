@@ -44,7 +44,7 @@ class ModelViewLanding(ModelViewBase):
             
             json_object = json.loads(updated_json_string)
 
-            JsonLandingDao.add(landing_slug=model.slug, info_json=json_object)
+            JsonLandingDao.add_json(json=json_object, slug=model.slug)
 
         except Exception as e:
             print(f"Error: {e}")
