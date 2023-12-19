@@ -1,6 +1,7 @@
-from typing import Optional, List
+from typing import Optional, List, Any
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Json
+
 
 class BookmakersSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
@@ -149,23 +150,27 @@ class BlockMainSchema(BaseModel):
 
 class LandingSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
+    id: int
     title: str
     slug: str
-    block_main_id: Optional[int]
-    block_banner_id: int
-    id: int
-    block_terms_id: int
-    block_footer_id: int
-    block_headers_id: int
-    block_add_id: Optional[int]
-    block_success_popup_id: int
-    block_bonus_id: int
-    terms_popup: TermsPopupSchema
 
+    #block_main_id: Optional[int]
+    #block_banner_id: int
+    #block_terms_id: int
+    #block_footer_id: int
+    #block_headers_id: int
+    #block_add_id: Optional[int]
+    #block_success_popup_id: int
+    #block_bonus_id: int
+
+
+    terms_popup: TermsPopupSchema
     block_headers: HeaderSchema  
     banners: BannerSchema  
     block_mains: Optional[BlockMainSchema]
     add_blocks: Optional[AddBlockSchema]  
     success_popups: SuccessPopupSchema  
     block_bonuses: BlockBonusSchema  
-    block_footers: BlockFooterSchema  
+    block_footers: BlockFooterSchema
+
+

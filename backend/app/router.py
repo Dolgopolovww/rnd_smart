@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from app.dao.base import UserDao, BookmakerDao, RoleDao, HeaderDao, LandingDao
-from schemas.schemas import Bookmaker, Header, Landing
+from schemas.schemas import BookmakersSchema, HeaderSchema, LandingSchema
 
 #from app.dao.base import ButtonDao, LendingDao, BannerDao, MedialSocialsDao, UserItemsDao, ItemsDao, UsersDao
 router = APIRouter(
@@ -17,15 +17,15 @@ async def get_users():
     return UserDao.find_all()
 
 @router.get('/bookmaker')
-async def get_bookmaker_by_id(bookmaker_id: int) -> Bookmaker:
+async def get_bookmaker_by_id(bookmaker_id: int) -> BookmakersSchema:
     return BookmakerDao.find_one_or_none(id=bookmaker_id)
 
-@router.get('/block_header', response_model=Header)
+@router.get('/block_header', response_model=HeaderSchema)
 async def get_block_header_by_id(block_header_id: int):
     return HeaderDao.find_one_or_none(id=block_header_id)
 
 
-@router.get('/land', response_model=Landing)
+@router.get('/land', response_model=LandingSchema)
 async def get_landing_by_slug(slug: str):
     landing = LandingDao.find_one_or_none(slug=slug)
     header = HeaderDao.find_one_or_none(id=landing.block_headers_id)

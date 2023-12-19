@@ -2,6 +2,7 @@ import datetime
 from typing import Annotated, List, Optional
 
 from sqlalchemy import MetaData, ForeignKey, text, Date, JSON
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db import Base
@@ -392,7 +393,6 @@ class Landing(Base):
     id: Mapped[intpk]
     title: Mapped[str]
     slug: Mapped[Optional[str]]
-    info_json: Mapped[Optional[dict|list]] = mapped_column(type_=JSON)
     block_terms_id: Mapped[Optional[str]] = mapped_column(ForeignKey('terms_popups.id'))
     block_headers_id: Mapped[Optional[int]] = mapped_column(ForeignKey('block_headers.id'))
     block_banner_id: Mapped[Optional[int]] = mapped_column(ForeignKey('banners.id'))
@@ -414,6 +414,13 @@ class Landing(Base):
     def __str__(self):
         return self.title
 
+
+class JsonLanding(Base):
+    __tablename__ = 'json_landings'
+
+    id: Mapped[intpk]
+    landing_slug: Mapped[str]
+    info_json: Mapped[Optional[dict|list]] = mapped_column(type_=JSONB)
 
 
 
