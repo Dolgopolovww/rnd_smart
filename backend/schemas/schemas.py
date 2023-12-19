@@ -1,6 +1,6 @@
 from typing import Optional, List, Any
 
-from pydantic import BaseModel, ConfigDict, Json
+from pydantic import BaseModel, ConfigDict, Json, Field
 
 
 class BookmakersSchema(BaseModel):
@@ -15,41 +15,40 @@ class HeaderSchema(BaseModel):
     id: int
     title: str
     logo: Optional[str]
-    bg_color: Optional[str]
-    bookmaker_id: int
+    bgColor: Optional[str] = Field(alias='bg_color')
 
-    bookmakers: BookmakersSchema
+    partner: BookmakersSchema = Field(alias='bookmakers')
 
 
 
 class TermsPopupSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
-    id: int
-    title: str
-    bg_color: str
+    bgColor: str = Field(alias='bg_color')
     text: str
-    text_color: str
+    textColor: str = Field(alias='text_color')
+
 
 
 class BannerSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id: int 
     title_banner: str
-    bg_color: str
-    bg_img: Optional[str]
+    bgColor: str = Field(alias='bg_color')
+    bgImg: Optional[str] = Field(alias='bg_img')
     text: str
-    text_color: str
+    textColor: str = Field(alias='text_color')
 
 
 class ButtonSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id: int
-    bg_color: str
+    bgColor: str = Field(alias='bg_color')
     text: str
-    text_color: str
+    textColor: str = Field(alias='text_color')
     url: str
-    analytics_endpoint: str
+    analyticsEndpoint: str = Field(alias='analytics_endpoint')
 
+# TODO вынести кнопку наружу
 class InteractiveSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id: int
@@ -62,7 +61,7 @@ class ValueBonusSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id: int
     value: int
-    currency: int
+    currency: str
 
 class TypeBonusSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
@@ -71,31 +70,31 @@ class TypeBonusSchema(BaseModel):
 
 class SuccessPopupSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
-    id: int
-    title: str
     text: str
-    text_color: str
-    sub_text: str
-    sub_text_color: str
+    textColor: str = Field(alias='text_color')
+    subText: str = Field(alias='sub_text')
+    subTextColor: str = Field(alias='sub_text_color')
     img: Optional[str]
 
+
+class SocialSchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    id: int
+    name: str
+    url: str
+    icon: Optional[str]
 
 class BonusSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id: int
-    title_bonus: str
+    titleBonus: str = Field(alias='title_bonus')
     img: Optional[str]
     text: str
 
-    bookmaker_id: int
-    button_id: int
-    value_bonus_id: int
-    type_id: int
-
-    bookmakers: BookmakersSchema
+    bookmaker: BookmakersSchema = Field(alias='bookmakers')
     buttons: ButtonSchema
-    value_bonuses: ValueBonusSchema
-    type_bonuses: TypeBonusSchema
+    value: ValueBonusSchema = Field(alias='value_bonuses')
+    typeBonus: TypeBonusSchema = Field(alias='type_bonuses')
 
 class BlockContentsSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
@@ -109,12 +108,22 @@ class AddBlockSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id: int
     title: str
-    bg_color: str
+    bgColor: str = Field(alias='bg_color')
     block_bonus_id: int
     block_content_id: int
 
     bonuses: BonusSchema
     block_contests: BlockContentsSchema
+
+class InteractiveCardSchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    title_interactive_card: str
+    key: str
+    img: Optional[str]
+    text: str
+    text_color: str
 
 class BlockBonusSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
@@ -122,31 +131,42 @@ class BlockBonusSchema(BaseModel):
     title_block_bonus: str
     logo: Optional[str]
     text: str
-    text_color: str
+    textColor: str = Field(alias='text_color')
 
+class BonusBlockBonus(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    id: int
+    bonus_id: int
+    block_bonus_id: int
+    block_bonuses: BlockBonusSchema
+    bonuses: List[BonusSchema]
+
+
+# TODO socials
 class BlockFooterSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id: int
-    title_block_footer: str
     logo: Optional[str]
-    bg_color: str
-    bookmaker_id: int
+    bgColor: str = Field(alias='bg_color')
 
-    bookmakers: BookmakersSchema
+    partner: BookmakersSchema = Field(alias='bookmakers')
 
 class BlockMainSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
-    id: int
     title: str
-    bg_color: str
+    bgColor: str = Field(alias='bg_color')
     text: str
-    text_color: str
-    interactive_id: int
-    buttons_id: int
+    textColor: str = Field(alias='text_color')
 
     interactive: InteractiveSchema
-    buttons: Optional[ButtonSchema] = None
+    buttons: Optional[ButtonSchema] = Field(alias='button')
 
+def to_camel_case(snake_str):
+    return "".join(x.capitalize() for x in snakestr.lower().split(""))
+
+def to_lower_camel_case(snake_str):
+    camel_string = to_camel_case(snake_str)
+    return snake_str[0].lower() + camel_string[1:]
 
 class LandingSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
@@ -164,13 +184,14 @@ class LandingSchema(BaseModel):
     #block_bonus_id: int
 
 
-    terms_popup: TermsPopupSchema
-    block_headers: HeaderSchema  
-    banners: BannerSchema  
-    block_mains: Optional[BlockMainSchema]
+    termsPopup: TermsPopupSchema = Field(alias='terms_popup')
+    header: HeaderSchema = Field(alias='block_headers')
+    heroBlock: BannerSchema  = Field(alias='banners')
+    mainBlock: Optional[BlockMainSchema] = Field(alias='block_mains')
     add_blocks: Optional[AddBlockSchema]  
-    success_popups: SuccessPopupSchema  
-    block_bonuses: BlockBonusSchema  
-    block_footers: BlockFooterSchema
+    successPopup: SuccessPopupSchema = Field(alias='success_popups')
+    bonuses: BlockBonusSchema  = Field(alias='block_bonuses')
+
+    footer: BlockFooterSchema = Field(alias='block_footers')
 
 

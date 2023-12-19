@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_admin import AdminIndexView, expose, Admin
+from flask import request, jsonify
 
 from app.view.block_footer_view import ModelViewBlockFooter
 from app.view.block_header_view import ModelViewBlockHeader
@@ -9,12 +10,12 @@ from app.view.landing_view import ModelViewLanding
 
 from app.view.success_popup_view import ModelViewSuccessPopup
 from config import settings
-from app.dao.base import ButtonDao, LandingDao
+from app.dao.base import ButtonDao, LandingDao, JsonLandingDao
 
 from models.models import Role, Bonus, Banner, Button, ValueBonus, TypeBonus, \
     BlockBonus, User, UserSelection, Bookmaker, Landing, BonusBlockBonus, BannerButton, \
     Social, BlockFooter, FooterSocial, Interactive, InteractiveCard, InteractiveInteractiveCard, BlockHeader, BlockMain, \
-    AddBlock, SuccessPopup, TermsPopup
+    AddBlock, SuccessPopup, TermsPopup, JsonLanding
 
 from flask_sqlalchemy import SQLAlchemy
 
@@ -95,10 +96,16 @@ class ModelLending(ModelViewBase):
 class DashBoardView(AdminIndexView):
     @expose('/land')
     def add_data_db(self,):
-        all_buttons = LandingDao.find_all()
-        print(all_buttons)
-        return all_buttons
+        slug = request.args.get('slug')
+        land = db.session.query(JsonLanding).filter_by(landing_slug=slug).first() 
+        data = land.info_json
 
+        print(data)
+
+        if data:
+            return data
+        else:
+            return jsonify({'error': 'Not found'}), 404
 # TODO: добавить возможность загружать картинки в любом разрешение
 
 

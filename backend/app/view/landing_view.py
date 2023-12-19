@@ -4,7 +4,7 @@ import os
 from flask import url_for
 from flask_admin import Admin, form
 from markupsafe import Markup
-from app.dao.base import HeaderDao, TermsDao, LandingDao, JsonLandingDao
+from app.dao.base import HeaderDao, TermsDao, LandingDao, JsonLandingDao, get_bonuses_for_block_bonus, get_socials_for_block_footer, get_blocks_for_interactive
 
 from app.view.base_view import ModelViewBase
 
@@ -20,7 +20,30 @@ class ModelViewLanding(ModelViewBase):
         try:
             landing_schema = LandingSchema.from_orm(model)
             landing_json = landing_schema.model_dump_json()
-            json_object = json.loads(landing_json)
+            
+            landing_data = json.loads(landing_json)
+
+            bonuses = get_bonuses_for_block_bonus(landing_schema.bonuses.id)
+
+            socials = get_socials_for_block_footer(landing_schema.footer.id)
+
+            blocks = get_blocks_for_interactive(landing_schema.mainBlock.interactive.id)
+
+            landing_data['mainBlock']['interactive']['blocks'] = blocks
+
+            landing_data['bonuses']['bonuses'] = bonuses
+
+            landing_data['footer']['socials'] = socials
+
+            print(landing_data)
+
+            updated_json_string = json.dumps(landing_data, ensure_ascii=False)
+
+            # print(updated_json_string)
+
+            
+            json_object = json.loads(updated_json_string)
+
             JsonLandingDao.add(landing_slug=model.slug, info_json=json_object)
 
         except Exception as e:

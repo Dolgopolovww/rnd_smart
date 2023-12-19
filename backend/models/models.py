@@ -290,7 +290,7 @@ class BlockMain(Base):
     text: Mapped[Optional[str]]
     text_color: Mapped[Optional[str]]
     interactive_id: Mapped[Optional[int]] = mapped_column(ForeignKey('interactive.id'))
-    buttons_id: Mapped[List[Optional[int]]] = mapped_column(ForeignKey('buttons.id'))
+    buttons_id: Mapped[Optional[int]] = mapped_column(ForeignKey('buttons.id'))
 
 
     interactive: Mapped["Interactive"] = relationship()
