@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useLayoutEffect, useState } from 'react';
 import { twJoin } from 'tailwind-merge';
 import { Container } from './Container';
+import { GeometryLine } from './GeometryLine';
 
 export const Hero = ({ onButtonClick }: { onButtonClick: () => void }) => {
   const router = useRouter();
@@ -33,8 +34,8 @@ export const Hero = ({ onButtonClick }: { onButtonClick: () => void }) => {
       >
         <div className='py-[60px] w-full t-md:py-[126px] flex justify-center  t-md:justify-start'>
           <div className='flex flex-col gap-[32px] t-md:gap-[40px] text-center items-center t-md:text-left t-md:items-start'>
-            <div className='relative w-full t-md:w-[444px] h-[33px]'>
-              <Image fill src='/assets/icons/geometry_line.svg' alt='' />
+            <div className={twJoin('heroText', 'relative w-fit  h-[33px]')}>
+              <GeometryLine />
             </div>
             <p
               className={twJoin(
