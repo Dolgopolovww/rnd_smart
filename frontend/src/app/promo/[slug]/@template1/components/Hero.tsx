@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useLayoutEffect, useState } from 'react';
 import { twJoin } from 'tailwind-merge';
 import { Container } from './Container';
+import { GeometryLine } from './GeometryLine';
 
 export const Hero = ({ onButtonClick }: { onButtonClick: () => void }) => {
   const router = useRouter();
@@ -33,8 +34,8 @@ export const Hero = ({ onButtonClick }: { onButtonClick: () => void }) => {
       >
         <div className='py-[60px] w-full t-md:py-[126px] flex justify-center  t-md:justify-start'>
           <div className='flex flex-col gap-[32px] t-md:gap-[40px] text-center items-center t-md:text-left t-md:items-start'>
-            <div className='relative w-full t-md:w-[444px] h-[33px]'>
-              <Image fill src='/assets/icons/geometry_line.svg' alt='' />
+            <div className={twJoin('heroText', 'relative w-fit  h-[33px]')}>
+              <GeometryLine />
             </div>
             <p
               className={twJoin(
@@ -42,7 +43,7 @@ export const Hero = ({ onButtonClick }: { onButtonClick: () => void }) => {
                 'font-panton italic font-extrabold text-[24px] m-lg:text-[32px] t-md:text-[48px] max-w-[650px] uppercase'
               )}
             >
-              {data?.heroBlock.text.text}
+              {data?.heroBlock.text}
             </p>
             <div className='max-w-[280px] w-full flex items-center flex-col'>
               <button
@@ -64,7 +65,7 @@ export const Hero = ({ onButtonClick }: { onButtonClick: () => void }) => {
                     'italic text-[20px] uppercase font-[800] leading-[1.2]'
                   )}
                 >
-                  {data?.heroBlock.heroButton.text.text}
+                  {data?.heroBlock.heroButton.text}
                 </p>
               </button>
               {data?.heroBlock.termsBtn && (
@@ -92,7 +93,7 @@ export const Hero = ({ onButtonClick }: { onButtonClick: () => void }) => {
       </Container>
       <style jsx>{`
         .heroText {
-          color: ${data?.heroBlock.text.textColor || '#fff'};
+          color: ${data?.heroBlock.textColor || '#fff'};
         }
 
         .button {
@@ -101,7 +102,7 @@ export const Hero = ({ onButtonClick }: { onButtonClick: () => void }) => {
         }
 
         .button:hover {
-          background-color: ${data?.heroBlock.heroButton.text.textColor};
+          background-color: ${data?.heroBlock.heroButton.textColor};
 
           .buttonText {
             color: ${data?.heroBlock.heroButton.bgColor};
@@ -116,7 +117,7 @@ export const Hero = ({ onButtonClick }: { onButtonClick: () => void }) => {
         }
 
         .buttonText {
-          color: ${data?.heroBlock.heroButton.text.textColor};
+          color: ${data?.heroBlock.heroButton.textColor};
         }
 
         .termsButtonText {

@@ -4,10 +4,11 @@ export interface LandingTemplate {
   header: Header;
   heroBlock: HeroBlock;
   mainBlock: MainBlock;
-  adBlock: AdBlock;
+  bonuses: AdBlock;
   footer: Footer;
   successPopup: SuccessPopup;
   termsPopup: TermsPopup;
+  templateKey: string;
 }
 
 // BLOCKS
@@ -21,14 +22,16 @@ export interface Header {
 export interface HeroBlock {
   bgColor: string;
   bgImg: string;
-  text: Text;
+  text: string;
+  textColor: string;
   termsBtn: TextButton | null;
   heroButton: Button;
 }
 
 export interface MainBlock {
   bgColor: string;
-  mainText: Text;
+  text: string;
+  textColor: string;
   interactive: Interactive[];
   participationBtn: ParticipationButton;
   termsBtn: TextButton | null;
@@ -36,7 +39,28 @@ export interface MainBlock {
 
 export interface AdBlock {
   bgColor: string;
-  ads: Ad[];
+  text: string | null;
+  textColor: string | null;
+  logo: string | null;
+  button: Button | null;
+  bonuses: Bonus[];
+  // ads: Ad[];
+}
+
+export interface Bonus {
+  bgColor: string | null;
+  img: string;
+  text: string;
+  textColor: string;
+  bookmaker: Bookmaker;
+  buttons: Button;
+  typeBonus: {
+    name: string;
+  };
+  value: {
+    currency: string;
+    value: number;
+  };
 }
 
 export interface Footer {
@@ -48,14 +72,20 @@ export interface Footer {
 
 export interface SuccessPopup {
   bgColor: string;
-  text: Text;
-  subText: Text;
+  // text: Text;
+  text: string;
+  textColor: string;
+  subText: string;
+  subTextColor: string;
+  // subText: Text;
   img: string;
 }
 
 export interface TermsPopup {
   bgColor: string;
-  text: Text;
+  // text: Text;
+  text: string;
+  textColor: string;
 }
 
 // MAIN BLOCK DECOMPOSE
@@ -66,10 +96,11 @@ export interface Interactive {
 }
 
 export interface InteractiveCard {
-  id: number;
+  // id: number;
   key: string;
   img: string | null;
   text: string | null;
+  textColor: string | null;
 }
 
 export interface ResetButton extends InteractiveCard {}
@@ -118,11 +149,12 @@ export interface Text {
   textColor: string;
 }
 
-export interface TextButton extends Text {}
+export type TextButton = Pick<Button, 'text' | 'textColor'>;
 
 export interface Button {
   bgColor: string;
-  text: Text;
+  text: string;
+  textColor: string;
   variant: ButtonVariants;
   url: string | null;
 }

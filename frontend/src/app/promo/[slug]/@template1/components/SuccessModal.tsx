@@ -48,7 +48,7 @@ export const SuccessModal = () => {
               'font-[700] text-[32px] m-lg:text-[48px] mb-[16px] m-lg:mb-[32px]'
             )}
           >
-            {successPopupData?.text.text}
+            {successPopupData?.text}
           </p>
           <p
             className={twJoin(
@@ -56,21 +56,21 @@ export const SuccessModal = () => {
               'font-[500] leading-[1.3] text-[16px] m-lg:text-[24px] whitespace-pre-wrap'
             )}
           >
-            {successPopupData?.subText.text}
+            {successPopupData?.subText}
           </p>
         </div>
       </div>
 
       <style jsx>{`
         .button {
-          color: ${successPopupData?.text.textColor};
+          color: ${successPopupData?.textColor};
         }
 
         .title {
-          color: ${successPopupData?.text.textColor};
+          color: ${successPopupData?.textColor};
         }
         .subText {
-          color: ${successPopupData?.subText.textColor};
+          color: ${successPopupData?.textColor};
         }
       `}</style>
     </Modal>
