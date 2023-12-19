@@ -261,6 +261,11 @@ class Banner(Base):
     bg_img: Mapped[Optional[str]]
     text: Mapped[Optional[str]]
     text_color: Mapped[Optional[str]]
+    hero_button_id: Mapped[Optional[int]] = mapped_column(ForeignKey('buttons.id'))
+    terms_button_id: Mapped[Optional[int]] = mapped_column(ForeignKey('buttons.id'))
+
+    hero_button: Mapped["Button"] = relationship("Button", foreign_keys=[hero_button_id])
+    terms_button: Mapped["Button"] = relationship("Button", foreign_keys=[terms_button_id])
 
     def __str__(self):
         return self.title_banner

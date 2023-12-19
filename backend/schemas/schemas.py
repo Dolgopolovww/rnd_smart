@@ -29,6 +29,14 @@ class TermsPopupSchema(BaseModel):
 
 
 
+class ButtonSchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    id: int
+    bgColor: str = Field(alias='bg_color')
+    text: str
+    textColor: str = Field(alias='text_color')
+    url: str
+    analyticsEndpoint: str = Field(alias='analytics_endpoint')
 class BannerSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id: int 
@@ -38,15 +46,10 @@ class BannerSchema(BaseModel):
     text: str
     textColor: str = Field(alias='text_color')
 
+    heroButton: ButtonSchema = Field(alias='hero_button')
+    termsBtn: Optional[ButtonSchema] = Field(alias='terms_button')
 
-class ButtonSchema(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-    id: int
-    bgColor: str = Field(alias='bg_color')
-    text: str
-    textColor: str = Field(alias='text_color')
-    url: str
-    analyticsEndpoint: str = Field(alias='analytics_endpoint')
+
 
 # TODO вынести кнопку наружу
 class InteractiveSchema(BaseModel):
@@ -74,6 +77,7 @@ class SuccessPopupSchema(BaseModel):
     textColor: str = Field(alias='text_color')
     subText: str = Field(alias='sub_text')
     subTextColor: str = Field(alias='sub_text_color')
+    bgColor: str = Field(alias='bg_color')
     img: Optional[str]
 
 
