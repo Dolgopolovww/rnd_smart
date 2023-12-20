@@ -48,7 +48,7 @@ export const Main = forwardRef<HTMLDivElement>((_, ref) => {
       const body = {
         header: {
           landing: data?.slug,
-          user_id: Date.now(),
+          user_id: Date.now().toString(),
         },
         result: userSelection?.map((el, index) => ({ id: index, text: el })),
       };
