@@ -4,6 +4,7 @@ import { CloseIcon } from '@/shared/ui/CloseIcon';
 import { Modal } from '@/shared/ui/Modal';
 import { useTemplateStore } from '@/store/templateStore';
 import { useTermsModal } from '@/store/termsModalStore';
+import parse from 'html-react-parser';
 
 export const TermsModal = () => {
   const termsPopupData = useTemplateStore((state) => state.data?.termsPopup);
@@ -34,7 +35,7 @@ export const TermsModal = () => {
             style={{ color: termsPopupData?.textColor }}
             className='text-[16px] whitespace-pre-wrap'
           >
-            {termsPopupData?.text}
+            {parse(termsPopupData?.text || '')}
           </p>
         </div>
       </div>
