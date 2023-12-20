@@ -46,9 +46,11 @@ class BannerSchema(BaseModel):
     bgImg: Optional[str] = Field(alias='bg_img')
     text: str
     textColor: str = Field(alias='text_color')
+    hero_button_id: int
+    terms_button_id: int
 
     heroButton: ButtonSchema = Field(alias='hero_button')
-    termsBtn: Optional[ButtonSchema] = Field(alias='terms_button')
+    termsBtn: ButtonSchema = Field(alias='terms_button')
 
 
 
@@ -127,8 +129,8 @@ class InteractiveCardSchema(BaseModel):
     title_interactive_card: str
     key: str
     img: Optional[str]
-    text: str
-    textColor: str = Field(alias='text_color')
+    text: Optional[str]
+    textColor: Optional[str] = Field(alias='text_color')
 
 class BlockBonusSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
