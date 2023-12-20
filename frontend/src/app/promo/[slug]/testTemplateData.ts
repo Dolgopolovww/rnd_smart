@@ -24,6 +24,7 @@ export const testTemplateData: LandingTemplate = {
     termsBtn: { text: 'Условия', textColor: '#fff' },
     text: 'Выиграй один из 20-ти новогодних подарков от Рейтинга Букмекеров',
     textColor: '#fff',
+    isFullscreen: true,
   },
   mainBlock: {
     text: 'Хочешь получать еще больше эксклюзивных бонусов подходящих именно тебе?\nУкажи в каких букмекерских конторах ты уже делаешь ставки и участвуй в розыгрыше!',

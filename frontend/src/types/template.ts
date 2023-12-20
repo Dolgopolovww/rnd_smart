@@ -22,6 +22,7 @@ export interface Header {
 export interface HeroBlock {
   bgColor: string;
   bgImg: string;
+  isFullscreen: boolean;
   text: string;
   textColor: string;
   termsBtn: TextButton | null;

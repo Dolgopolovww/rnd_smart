@@ -15,12 +15,21 @@ export const Hero = ({ onButtonClick }: { onButtonClick: () => void }) => {
   const { data } = useTemplateStore.getState();
   const toggleTermsModal = useTermsModal((state) => state.toggle);
 
+  const isFullscreenBg = data?.heroBlock.isFullscreen;
+
   useLayoutEffect(() => {
     setShowBgImage(windowWidth >= 991);
   }, [windowWidth]);
 
   return (
-    <section className='wrapper'>
+    <section
+      className='wrapper bg-no-repeat bg-cover bg-center'
+      style={
+        isFullscreenBg
+          ? { backgroundImage: `url(${data?.heroBlock.bgImg})` }
+          : {}
+      }
+    >
       <style jsx>{`
         .wrapper {
           background-color: ${data?.heroBlock?.bgColor || '#fff'};
@@ -28,7 +37,10 @@ export const Hero = ({ onButtonClick }: { onButtonClick: () => void }) => {
       `}</style>
       <Container
         style={{
-          backgroundImage: showBgImage ? `url(${data?.heroBlock.bgImg})` : '',
+          backgroundImage:
+            showBgImage && !isFullscreenBg
+              ? `url(${data?.heroBlock.bgImg})`
+              : '',
         }}
         className='bg-no-repeat bg-right-bottom bg-auto min-h-[600px]'
       >
@@ -82,14 +94,16 @@ export const Hero = ({ onButtonClick }: { onButtonClick: () => void }) => {
             </div>
           </div>
         </div>
-        <div className='relative block t-md:hidden w-full h-[240px] m-md:h-[350px]'>
-          <Image
-            className='object-contain object-bottom'
-            fill
-            src={data?.heroBlock.bgImg || ''}
-            alt=''
-          />
-        </div>
+        {!isFullscreenBg && (
+          <div className='relative block t-md:hidden w-full h-[240px] m-md:h-[350px]'>
+            <Image
+              className='object-contain object-bottom'
+              fill
+              src={data?.heroBlock.bgImg || ''}
+              alt=''
+            />
+          </div>
+        )}
       </Container>
       <style jsx>{`
         .heroText {
