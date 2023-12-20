@@ -96,7 +96,7 @@ export const Main = forwardRef<HTMLDivElement>((_, ref) => {
             'font-norms whitespace-pre-wrap text-[14px] m-lg:text-[18px] t-md:text-[24px] t-md mb-[36px] text-center t-md:text-left'
           )}
         >
-          {parse(data?.mainBlock.text.replaceAll('\n', '<br />') || '')}
+          {parse(data?.mainBlock.text.replaceAll('\\n', '<br />') || '')}
         </p>
         {/* {data?.mainBlock.interactive.blocks.map((interactive, index) => { */}
 

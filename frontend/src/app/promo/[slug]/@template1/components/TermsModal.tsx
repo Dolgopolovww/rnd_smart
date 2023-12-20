@@ -35,7 +35,7 @@ export const TermsModal = () => {
             style={{ color: termsPopupData?.textColor }}
             className='text-[16px] whitespace-pre-wrap'
           >
-            {parse(termsPopupData?.text.replaceAll('\n', '<br />') || '')}
+            {parse(termsPopupData?.text.replaceAll('\\n', '<br />') || '')}
           </p>
         </div>
       </div>

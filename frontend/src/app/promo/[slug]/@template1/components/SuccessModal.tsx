@@ -57,7 +57,7 @@ export const SuccessModal = () => {
               'font-[500] leading-[1.3] text-[16px] m-lg:text-[24px] whitespace-pre-wrap'
             )}
           >
-            {parse(successPopupData?.subText || '')}
+            {parse(successPopupData?.subText.replaceAll('\\n', '<br />') || '')}
           </p>
         </div>
       </div>
