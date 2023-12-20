@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Fragment, forwardRef, useState } from 'react';
 import { twJoin, twMerge } from 'tailwind-merge';
 import { Container } from './Container';
+import parse from 'html-react-parser';
 
 const API_URL = 'http://localhost';
 const PORT = 8084;
@@ -95,7 +96,7 @@ export const Main = forwardRef<HTMLDivElement>((_, ref) => {
             'font-norms whitespace-pre-wrap text-[14px] m-lg:text-[18px] t-md:text-[24px] t-md mb-[36px] text-center t-md:text-left'
           )}
         >
-          {data?.mainBlock.text}
+          {parse(data?.mainBlock.text || '')}
         </p>
         {/* {data?.mainBlock.interactive.blocks.map((interactive, index) => { */}
 
@@ -110,7 +111,7 @@ export const Main = forwardRef<HTMLDivElement>((_, ref) => {
           {data?.mainBlock.interactive.blocks.map((block, index) => {
             return (
               <button
-                disabled={isUserParticipating}
+                disabled={isUserParticipating || isLoading}
                 onClick={() => handleUserSelection(block.key)}
                 className={twMerge(
                   interactiveBlockStyles,
@@ -132,7 +133,7 @@ export const Main = forwardRef<HTMLDivElement>((_, ref) => {
 
           {data?.mainBlock.interactive.resetBtn && (
             <button
-              disabled={isUserParticipating}
+              disabled={isUserParticipating || isLoading}
               onClick={resetUserSelection}
               className={twMerge(
                 interactiveBlockStyles,

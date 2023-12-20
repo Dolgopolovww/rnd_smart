@@ -4,6 +4,7 @@ import { useSuccessModal } from '@/store/successModalStore';
 import { useTemplateStore } from '@/store/templateStore';
 import Image from 'next/image';
 import { twJoin } from 'tailwind-merge';
+import parse from 'html-react-parser';
 
 export const SuccessModal = () => {
   const successPopupData = useTemplateStore(
@@ -56,7 +57,7 @@ export const SuccessModal = () => {
               'font-[500] leading-[1.3] text-[16px] m-lg:text-[24px] whitespace-pre-wrap'
             )}
           >
-            {successPopupData?.subText}
+            {parse(successPopupData?.subText || '')}
           </p>
         </div>
       </div>
