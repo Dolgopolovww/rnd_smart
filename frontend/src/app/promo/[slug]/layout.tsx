@@ -26,6 +26,9 @@ const getData = async (slug: string): Promise<LandingTemplate | null> => {
       // temporary disabled cache for testing
       { cache: 'no-cache' }
     );
+    if (res.status === 404) {
+      notFound();
+    }
     if (!res.ok) {
       throw new Error('Failed to fetch data');
     }
