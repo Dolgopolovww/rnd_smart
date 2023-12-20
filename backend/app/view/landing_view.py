@@ -14,9 +14,9 @@ file_path = os.path.abspath(os.path.dirname(__name__))
 
 class ModelViewLanding(ModelViewBase):
     def on_model_change(self, form, model, is_created):
-        self.process_fields(model)
+        # self.process_fields(model)
 
-    def process_fields(self, model):
+    # def process_fields(self, model):
         try:
             landing_schema = LandingSchema.from_orm(model)
             landing_json = landing_schema.model_dump_json()

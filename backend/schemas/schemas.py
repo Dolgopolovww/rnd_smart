@@ -48,6 +48,7 @@ class BannerSchema(BaseModel):
     textColor: str = Field(alias='text_color')
     hero_button_id: int
     terms_button_id: int
+    isFullscreen: Optional[bool] = Field(alias='is_fullscreen')
 
     heroButton: ButtonSchema = Field(alias='hero_button')
     termsBtn: ButtonSchema = Field(alias='terms_button')
@@ -191,7 +192,7 @@ class LandingSchema(BaseModel):
     header: HeaderSchema = Field(alias='block_headers')
     heroBlock: BannerSchema  = Field(alias='banners')
     mainBlock: Optional[BlockMainSchema] = Field(alias='block_mains')
-    add_blocks: Optional[AddBlockSchema]  
+    # add_blocks: Optional[AddBlockSchema]  
     successPopup: SuccessPopupSchema = Field(alias='success_popups')
     bonuses: BlockBonusSchema  = Field(alias='block_bonuses')
 

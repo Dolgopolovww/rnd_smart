@@ -1,7 +1,7 @@
 import datetime
 from typing import Annotated, List, Optional
 
-from sqlalchemy import MetaData, ForeignKey, text, Date, JSON
+from sqlalchemy import MetaData, ForeignKey, text, Date, JSON, Column, Boolean
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -263,6 +263,7 @@ class Banner(Base):
     bg_img: Mapped[Optional[str]]
     text: Mapped[Optional[str]]
     text_color: Mapped[Optional[str]]
+    is_fullscreen: Mapped[Optional[bool]] = mapped_column(default=True)
     hero_button_id: Mapped[Optional[int]] = mapped_column(ForeignKey('buttons.id'))
     terms_button_id: Mapped[Optional[int]] = mapped_column(ForeignKey('buttons.id'))
 
