@@ -7,11 +7,15 @@ import { Fragment, forwardRef, useState } from 'react';
 import { twJoin, twMerge } from 'tailwind-merge';
 import { Container } from './Container';
 
+const API_URL = 'http://localhost';
+const PORT = 8084;
+
 export const Main = forwardRef<HTMLDivElement>((_, ref) => {
   const { data } = useTemplateStore.getState();
   const [userSelection, setUserSelection] = useState<string[] | null>(null);
   const [isUserParticipating, setIsUserParticipating] = useState(false);
   const toggleSuccessModal = useSuccessModal((state) => state.toggle);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleUserSelection = (key: string) => {
     setUserSelection((prev) => {
@@ -28,10 +32,36 @@ export const Main = forwardRef<HTMLDivElement>((_, ref) => {
     });
   };
 
-  const handleSendData = () => {
-    toggleSuccessModal();
-    setIsUserParticipating(true);
+  const sendData = async (data: unknown) => {
+    const response = await fetch(`${API_URL}:${PORT}/report`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      throw new Error(`Failed when sending data. Status: ${response.status}`);
+    }
   };
+
+  const handleSendData = async () => {
+    try {
+      setIsLoading(true);
+      const body = {
+        header: {
+          landing: data?.slug,
+          user_id: Date.now(),
+        },
+        result: userSelection?.map((el, index) => ({ id: index, text: el })),
+      };
+      await sendData(body);
+      toggleSuccessModal();
+      setIsUserParticipating(true);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const interactiveBlockStyles = twJoin(
     'h-[60px] m-lg:h-[80px] t-md:h-[120px] bg-[#00000008] rounded-[12px] p-[12px] pl-[20px] flex items-center justify-center grayscale transition-all border-solid border-transparent border-[3px]',
     !isUserParticipating && 'hover:grayscale-0'
@@ -130,7 +160,7 @@ export const Main = forwardRef<HTMLDivElement>((_, ref) => {
         {/* })} */}
         <button
           onClick={handleSendData}
-          disabled={!userSelection || isUserParticipating}
+          disabled={!userSelection || isUserParticipating || isLoading}
           style={{
             backgroundColor: data?.mainBlock.participationBtn.bgColor,
             color: data?.mainBlock.participationBtn.textColor,

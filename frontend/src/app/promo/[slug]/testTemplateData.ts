@@ -1,6 +1,7 @@
 import { LandingTemplate } from '@/types/template';
 
 export const testTemplateData: LandingTemplate = {
+  slug: 'test',
   header: {
     bgColor: '#fff',
     logo: 'https://bookmaker-ratings.ru/promo/championsleague/assets/rb-full.11cf3cb5.svg',
@@ -24,7 +25,7 @@ export const testTemplateData: LandingTemplate = {
     termsBtn: { text: 'Условия', textColor: '#fff' },
     text: 'Выиграй один из 20-ти новогодних подарков от Рейтинга Букмекеров',
     textColor: '#fff',
-    isFullscreen: true,
+    isFullscreen: false,
   },
   mainBlock: {
     text: 'Хочешь получать еще больше эксклюзивных бонусов подходящих именно тебе?\nУкажи в каких букмекерских конторах ты уже делаешь ставки и участвуй в розыгрыше!',

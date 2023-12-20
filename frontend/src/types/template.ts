@@ -9,6 +9,7 @@ export interface LandingTemplate {
   successPopup: SuccessPopup;
   termsPopup: TermsPopup;
   templateKey: string;
+  slug: string;
 }
 
 // BLOCKS
