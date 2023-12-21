@@ -42,7 +42,7 @@ export const Hero = ({ onButtonClick }: { onButtonClick: () => void }) => {
               ? `url(${data?.heroBlock.bgImg})`
               : '',
         }}
-        className='bg-no-repeat bg-right-bottom bg-auto'
+        className='bg-no-repeat bg-right-bottom bg-contain'
       >
         <div className='py-[60px] w-full t-md:py-[126px] flex justify-center  t-md:justify-start'>
           <div className='flex flex-col gap-[32px] t-md:gap-[40px] text-center items-center t-md:text-left t-md:items-start'>
