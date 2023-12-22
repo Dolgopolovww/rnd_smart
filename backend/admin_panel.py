@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_admin import AdminIndexView, expose, Admin
+from flask_admin import AdminIndexView, expose, Admin, BaseView
 from flask import request, jsonify
 
 from app.view.block_footer_view import ModelViewBlockFooter
@@ -13,8 +13,8 @@ from config import settings
 from app.dao.base import ButtonDao, LandingDao, JsonLandingDao
 
 from models.models import Role, Bonus, Banner, Button, ValueBonus, TypeBonus, \
-    BlockBonus, User, UserSelection, Bookmaker, Landing, BonusBlockBonus, BannerButton, \
-    Social, BlockFooter, FooterSocial, Interactive, InteractiveCard, InteractiveInteractiveCard, BlockHeader, BlockMain, \
+    BlockBonus, User, UserSelection, Bookmaker, Landing, \
+    Social, BlockFooter, FooterSocial, Interactive, InteractiveCard, BlockHeader, BlockMain, \
     AddBlock, SuccessPopup, TermsPopup, JsonLanding, ChampGroup, ChampTeam
 
 from flask_sqlalchemy import SQLAlchemy
@@ -96,17 +96,15 @@ class ModelLending(ModelViewBase):
 class DashBoardView(AdminIndexView):
     @expose('/land')
     def add_data_db(self,):
+        # http://127.0.0.1:5005/admin/land?slug=t7
         slug = request.args.get('slug')
-        land = db.session.query(JsonLanding).filter_by(landing_slug=slug).first() 
+        land = db.session.query(JsonLanding).filter_by(landing_slug=slug).first()
         data = land.info_json
-
-        print(data)
 
         if data:
             return data
         else:
             return jsonify({'error': 'Not found'}), 404
-# TODO: добавить возможность загружать картинки в любом разрешение
 
 
 admin = Admin(app_flask, name='Template Engine', template_mode='bootstrap3', index_view=DashBoardView(), endpoint='admin')
@@ -121,8 +119,8 @@ admin.add_view(ModelViewBase(Social, db.session, name="Соц. сети", catego
 
 admin.add_view(ModelViewBase(InteractiveCard, db.session, name="Карточки выбора БК", category="Интерактивный блок"))
 admin.add_view(ModelViewBase(Interactive, db.session, name="Блок Выбор БК", category="Интерактивный блок"))
-admin.add_view(ModelViewBase(InteractiveInteractiveCard, db.session, name="Наполнение блока выбора БК", category="Интерактивный блок"))
-# admin.add_view(ModelViewBase(InteractiveInteractiveCard, db.session, name="блок Чемпионат", category="Интерактивный блок"))
+#admin.add_view(ModelViewBase(InteractiveInteractiveCard, db.session, name="Наполнение блока выбора БК", category="Интерактивный блок"))
+admin.add_view(ModelViewBase(InteractiveInteractiveCard, db.session, name="Блок Чемпионат", category="Интерактивный блок"))
 admin.add_view(ModelViewBase(ChampGroup, db.session, name="Группы чемпионата", category="Интерактивный блок"))
 admin.add_view(ModelViewBase(ChampTeam, db.session, name="Команды Чемпионата", category="Интерактивный блок"))
 
@@ -130,12 +128,12 @@ admin.add_view(ModelViewBase(ChampTeam, db.session, name="Команды Чем�
 
 admin.add_view(ModelViewBase(TermsPopup, db.session, name="Terms Popup", category="Блоки"))
 admin.add_view(ModelViewBase(BlockHeader, db.session, name="Block Headers", category="Блоки"))
-admin.add_view(ModelViewBase(Banner, db.session, name="Banners", category="Блоки"))
+admin.add_view(ModelViewBanner(Banner, db.session, name="Banners", category="Блоки"))
 admin.add_view(ModelViewBase(BlockMain, db.session, name="Block Mains", category="Блоки"))
 admin.add_view(ModelViewBase(SuccessPopup, db.session, name="Блок success popup", category="Блоки"))
 admin.add_view(ModelViewBase(BlockBonus, db.session, name="Block Bonuses", category="Блоки"))
-admin.add_view(ModelViewBase(BonusBlockBonus, db.session, name="Наполнение блока бонусов", category="Блоки"))
-admin.add_view(ModelViewBase(FooterSocial, db.session, name="Добавление соц. сетей для блока футер", category="Блоки"))
+#admin.add_view(ModelViewBase(BonusBlockBonus, db.session, name="Наполнение блока бонусов", category="Блоки"))
+#admin.add_view(ModelViewBase(FooterSocial, db.session, name="Добавление соц. сетей для блока футер", category="Блоки"))
 admin.add_view(ModelViewBase(BlockFooter, db.session, name="Блок футер", category="Блоки"))
 
 

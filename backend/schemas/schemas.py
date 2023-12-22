@@ -38,6 +38,7 @@ class ButtonSchema(BaseModel):
     url: str
     analyticsEndpoint: str = Field(alias='analytics_endpoint')
     variant: str
+
 class BannerSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id: int 
@@ -46,13 +47,23 @@ class BannerSchema(BaseModel):
     bgImg: Optional[str] = Field(alias='bg_img')
     text: str
     textColor: str = Field(alias='text_color')
-    hero_button_id: int
-    terms_button_id: int
+    buttons: Optional[List[ButtonSchema]]
+    #hero_button_id: int
+    #terms_button_id: int
     isFullscreen: Optional[bool] = Field(alias='is_fullscreen')
 
-    heroButton: ButtonSchema = Field(alias='hero_button')
-    termsBtn: ButtonSchema = Field(alias='terms_button')
+    #heroButton: ButtonSchema = Field(alias='hero_button')
+    #termsBtn: ButtonSchema = Field(alias='terms_button')
 
+class InteractiveCardSchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    title_interactive_card: str
+    key: str
+    img: Optional[str]
+    text: Optional[str]
+    textColor: Optional[str] = Field(alias='text_color')
 
 
 # TODO вынести кнопку наружу
@@ -61,6 +72,7 @@ class InteractiveSchema(BaseModel):
     id: int
     title_interactive: str
     reset_button_id: int
+    interactive_cards: Optional[List[InteractiveCardSchema]]
 
     resetBtn: Optional[ButtonSchema] = Field(alias='buttons')
 
@@ -123,15 +135,7 @@ class AddBlockSchema(BaseModel):
     bonuses: BonusSchema
     block_contests: BlockContentsSchema
 
-class InteractiveCardSchema(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
 
-    id: int
-    title_interactive_card: str
-    key: str
-    img: Optional[str]
-    text: Optional[str]
-    textColor: Optional[str] = Field(alias='text_color')
 
 class BlockBonusSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
@@ -141,14 +145,8 @@ class BlockBonusSchema(BaseModel):
     text: str
     textColor: str = Field(alias='text_color')
     bgColor: str = Field(alias='bg_color')
+    bonus: Optional[List[BonusSchema]]
 
-class BonusBlockBonus(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-    id: int
-    bonus_id: int
-    block_bonus_id: int
-    block_bonuses: BlockBonusSchema
-    bonuses: List[BonusSchema]
 
 
 # TODO socials
@@ -157,6 +155,7 @@ class BlockFooterSchema(BaseModel):
     id: int
     logo: Optional[str]
     bgColor: str = Field(alias='bg_color')
+    socials: Optional[List[SocialSchema]]
 
     partner: BookmakersSchema = Field(alias='bookmakers')
 
@@ -190,11 +189,11 @@ class LandingSchema(BaseModel):
 
     termsPopup: TermsPopupSchema = Field(alias='terms_popup')
     header: HeaderSchema = Field(alias='block_headers')
-    heroBlock: BannerSchema  = Field(alias='banners')
+    heroBlock: BannerSchema = Field(alias='banners')
     mainBlock: Optional[BlockMainSchema] = Field(alias='block_mains')
     # add_blocks: Optional[AddBlockSchema]  
     successPopup: SuccessPopupSchema = Field(alias='success_popups')
-    bonuses: BlockBonusSchema  = Field(alias='block_bonuses')
+    bonuses: BlockBonusSchema = Field(alias='block_bonuses')
 
     footer: BlockFooterSchema = Field(alias='block_footers')
 

@@ -123,6 +123,11 @@ class TypeBonus(Base):
     def __str__(self):
         return self.name
 
+association_table_block_bonuses = Table('association_bonus', Base.metadata,
+    Column('bonuses_id', Integer, ForeignKey('bonuses.id')),
+    Column('block_bonuses_id', Integer, ForeignKey('block_bonuses.id'))
+)
+
 
 class Bonus(Base):
     __tablename__ = 'bonuses'
@@ -137,6 +142,7 @@ class Bonus(Base):
     value_bonus_id: Mapped[Optional[int]] = mapped_column(ForeignKey('value_bonuses.id'))
     type_id: Mapped[Optional[int]] = mapped_column(ForeignKey('type_bonuses.id'))
 
+
     bookmakers: Mapped["Bookmaker"] = relationship()
     buttons: Mapped["Button"] = relationship()
     value_bonuses: Mapped["ValueBonus"] = relationship()
@@ -144,20 +150,6 @@ class Bonus(Base):
 
     def __str__(self):
         return self.title_bonus
-
-
-
-
-class BonusBlockBonus(Base):
-    __tablename__ = 'bonus_block_bonuses'
-
-    id: Mapped[intpk]
-    bonus_id: Mapped[int] = mapped_column(ForeignKey('bonuses.id'))
-    block_bonus_id: Mapped[int] = mapped_column(ForeignKey('block_bonuses.id'))
-
-    bonuses: Mapped['Bonus'] = relationship()
-    block_bonuses: Mapped['BlockBonus'] = relationship()
-
 
 class BlockBonus(Base):
     __tablename__ = 'block_bonuses'
@@ -168,6 +160,7 @@ class BlockBonus(Base):
     text: Mapped[Optional[str]]
     text_color: Mapped[Optional[str]]
     bg_color: Mapped[Optional[str]]
+    bonus = relationship("Bonus", secondary=association_table_block_bonuses)
 
     def __str__(self):
         return self.title_block_bonus
@@ -185,6 +178,31 @@ class Bookmaker(Base):
         return self.name
 
 
+association_table_banner = Table('association_banner', Base.metadata,
+    Column('banners_id', Integer, ForeignKey('banners.id')),
+    Column('buttons_id', Integer, ForeignKey('buttons.id'))
+)
+
+class Banner(Base):
+    __tablename__ = 'banners'
+
+    id: Mapped[intpk]
+    title_banner: Mapped[Optional[str]]
+    bg_color: Mapped[Optional[str]]
+    bg_img: Mapped[Optional[str]]
+    text: Mapped[Optional[str]]
+    text_color: Mapped[Optional[str]]
+    is_fullscreen: Mapped[Optional[bool]] = mapped_column(default=True)
+    buttons = relationship("Button", secondary=association_table_banner)
+
+    #hero_button_id: Mapped[Optional[int]] = mapped_column(ForeignKey('buttons.id'))
+    #terms_button_id: Mapped[Optional[int]] = mapped_column(ForeignKey('buttons.id'))
+
+    #hero_button: Mapped["Button"] = relationship("Button", foreign_keys=[hero_button_id])
+    #terms_button: Mapped["Button"] = relationship("Button", foreign_keys=[terms_button_id])
+
+    def __str__(self):
+        return self.title_banner
 
 
 class Button(Base):
@@ -203,17 +221,10 @@ class Button(Base):
 
 
 
-class BannerButton(Base):
-    __tablename__ = 'banner_buttons'
-
-    id: Mapped[intpk]
-    banner_id: Mapped[int] = mapped_column(ForeignKey('banners.id'))
-    button_id: Mapped[int] = mapped_column(ForeignKey('buttons.id'))
-
-
-    buttons: Mapped["Button"] = relationship()
-    banners: Mapped["Banner"] = relationship()
-
+association_table_interactive = Table('association_interactive', Base.metadata,
+    Column('interactive_id', Integer, ForeignKey('interactive.id')),
+    Column('interactive_cards_id', Integer, ForeignKey('interactive_cards.id'))
+)
 
 class Interactive(Base):
     __tablename__ = 'interactive'
@@ -222,22 +233,12 @@ class Interactive(Base):
     title_interactive: Mapped[str]
     reset_button_id: Mapped[Optional[str]] = mapped_column(ForeignKey('buttons.id'))
 
+    interactive_cards = relationship("InteractiveCard", secondary=association_table_interactive)
     buttons: Mapped["Button"] = relationship()
 
     def __str__(self):
         return self.title_interactive
 
-
-
-class InteractiveInteractiveCard(Base):
-    __tablename__ = 'interactive_interactive_cards'
-
-    id: Mapped[intpk]
-    interactive_card_id: Mapped[int] = mapped_column(ForeignKey('interactive_cards.id'))
-    interactive_id: Mapped[int] = mapped_column(ForeignKey('interactive.id'))
-
-    interactive: Mapped["Interactive"] = relationship()
-    interactive_cards: Mapped["InteractiveCard"] = relationship()
 
 
 class InteractiveCard(Base):
@@ -273,6 +274,7 @@ class ChampGroup(Base):
 
     def __str__(self):
         return self.title
+
 class ChampTeam(Base):
     __tablename__ = 'champ_team'
 
@@ -284,28 +286,6 @@ class ChampTeam(Base):
 
     def __str__(self):
         return self.name
-
-
-
-
-class Banner(Base):
-    __tablename__ = 'banners'
-
-    id: Mapped[intpk]
-    title_banner: Mapped[Optional[str]]
-    bg_color: Mapped[Optional[str]]
-    bg_img: Mapped[Optional[str]]
-    text: Mapped[Optional[str]]
-    text_color: Mapped[Optional[str]]
-    is_fullscreen: Mapped[Optional[bool]] = mapped_column(default=True)
-    hero_button_id: Mapped[Optional[int]] = mapped_column(ForeignKey('buttons.id'))
-    terms_button_id: Mapped[Optional[int]] = mapped_column(ForeignKey('buttons.id'))
-
-    hero_button: Mapped["Button"] = relationship("Button", foreign_keys=[hero_button_id])
-    terms_button: Mapped["Button"] = relationship("Button", foreign_keys=[terms_button_id])
-
-    def __str__(self):
-        return self.title_banner
 
 
 class BlockHeader(Base):
@@ -416,6 +396,10 @@ class FooterSocial(Base):
     socials: Mapped['Social'] = relationship()
 
 
+association_table_footer = Table('association_footer', Base.metadata,
+    Column('socials_id', Integer, ForeignKey('socials.id')),
+    Column('block_footers_id', Integer, ForeignKey('block_footers.id'))
+)
 
 class BlockFooter(Base):
     __tablename__ = 'block_footers'
@@ -425,6 +409,7 @@ class BlockFooter(Base):
     logo: Mapped[Optional[str]]
     bg_color: Mapped[Optional[str]]
     bookmaker_id: Mapped[Optional[int]] = mapped_column(ForeignKey('bookmakers.id'))
+    socials = relationship("Social", secondary=association_table_footer)
 
     bookmakers: Mapped['Bookmaker'] = relationship()
 
