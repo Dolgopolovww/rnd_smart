@@ -3,7 +3,8 @@ from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.orm.sync import update
 
 from app.db import sync_session_factory
-from models.models import Role, User, Button, Bookmaker, BlockHeader, Landing, TermsPopup, JsonLanding, Bonus, BonusBlockBonus, Social, FooterSocial, BlockFooter, InteractiveCard, Interactive, InteractiveInteractiveCard
+from models.models import Role, User, Button, Bookmaker, BlockHeader, Landing, TermsPopup, JsonLanding, Bonus, \
+    Social, FooterSocial, BlockFooter, InteractiveCard, Interactive, Banner
 from schemas.schemas import BonusSchema, SocialSchema, InteractiveCardSchema
 import json
 
@@ -59,7 +60,7 @@ class BaseDao:
             else:
                 session.execute(insert(JsonLanding).values(landing_slug=slug, info_json=json))
             session.commit()
-
+"""
 def get_bonuses_for_block_bonus(block_bonus_id):
     with sync_session_factory() as session:
         bonuses = (
@@ -81,7 +82,7 @@ def get_bonuses_for_block_bonus(block_bonus_id):
         data_res = json.loads(final_json)
 
         return data_res
-
+"""
 def get_socials_for_block_footer(block_footer_id):
     with sync_session_factory() as session:
         socials = (
@@ -102,7 +103,7 @@ def get_socials_for_block_footer(block_footer_id):
         data_res = json.loads(final_json)
 
         return data_res
-
+"""
 def get_blocks_for_interactive(interactive_id):
     with sync_session_factory() as session:
         blocks = (
@@ -123,7 +124,7 @@ def get_blocks_for_interactive(interactive_id):
         data_res = json.loads(final_json)
 
         return data_res
-
+"""
 
 
 

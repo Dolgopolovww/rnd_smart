@@ -1,9 +1,8 @@
 import json
 import os
 
-from flask import url_for
-from flask_admin import Admin, form
-from markupsafe import Markup
+from icecream import ic
+
 from app.dao.base import HeaderDao, TermsDao, LandingDao, JsonLandingDao, get_bonuses_for_block_bonus, get_socials_for_block_footer, get_blocks_for_interactive
 
 from app.view.base_view import ModelViewBase
@@ -23,23 +22,14 @@ class ModelViewLanding(ModelViewBase):
             
             landing_data = json.loads(landing_json)
 
-            bonuses = get_bonuses_for_block_bonus(landing_schema.bonuses.id)
-
-            socials = get_socials_for_block_footer(landing_schema.footer.id)
-
-            blocks = get_blocks_for_interactive(landing_schema.mainBlock.interactive.id)
-
-            landing_data['mainBlock']['interactive']['blocks'] = blocks
-
-            landing_data['bonuses']['bonuses'] = bonuses
-
-            landing_data['footer']['socials'] = socials
-
-            print(landing_data)
+            #bonuses = get_bonuses_for_block_bonus(landing_schema.bonuses.id)
+            #socials = get_socials_for_block_footer(landing_schema.footer.id)
+            #blocks = get_blocks_for_interactive(landing_schema.mainBlock.interactive.id)
+            #landing_data['mainBlock']['interactive']['blocks'] = blocks
+            #landing_data['bonuses']['bonuses'] = bonuses
+            #landing_data['footer']['socials'] = socials
 
             updated_json_string = json.dumps(landing_data, ensure_ascii=False)
-
-            # print(updated_json_string)
 
             
             json_object = json.loads(updated_json_string)
@@ -50,6 +40,10 @@ class ModelViewLanding(ModelViewBase):
             print(f"Error: {e}")
         pass
 
+    column_list = ('id', 'title', 'slug', 'block_headers', 'banners', 'block_mains', 'block_bonuses', 'block_footers',
+                   'success_popups', 'terms_popup',)
+    column_filters = ['title', 'slug']
+    #column_sortable_list = ['id', 'title']
 
 def create_form(self, obj=None):
     return super(ModelViewLanding, self).create_form(obj)
