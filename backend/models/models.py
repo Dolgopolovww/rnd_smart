@@ -1,7 +1,7 @@
 import datetime
 from typing import Annotated, List, Optional
 
-from sqlalchemy import MetaData, ForeignKey, text, Date, JSON, Column, Boolean
+from sqlalchemy import MetaData, ForeignKey, text, Date, JSON, Column, Boolean, Table, Integer
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -252,6 +252,40 @@ class InteractiveCard(Base):
 
     def __str__(self):
         return self.title_interactive_card
+
+
+association_table = Table('association', Base.metadata,
+    Column('champ_group_id', Integer, ForeignKey('champ_group.id')),
+    Column('champ_team_id', Integer, ForeignKey('champ_team.id'))
+)
+
+class ChampGroup(Base):
+    __tablename__ = 'champ_group'
+
+    id: Mapped[intpk]
+    title: Mapped[Optional[str]]
+    bg_color: Mapped[Optional[str]]
+    title_color: Mapped[Optional[str]]
+    # team_ids: Mapped[Optional[int]]
+
+    # teams: Mapped["Button"] = relationship("Team", foreign_keys=[team_ids])
+    teams = relationship("ChampTeam", secondary=association_table)
+
+    def __str__(self):
+        return self.title
+class ChampTeam(Base):
+    __tablename__ = 'champ_team'
+
+    id: Mapped[intpk]
+    name: Mapped[Optional[str]]
+    name_color: Mapped[Optional[str]]
+    logo: Mapped[Optional[str]]
+    points: Mapped[Optional[int]]
+
+    def __str__(self):
+        return self.name
+
+
 
 
 class Banner(Base):
