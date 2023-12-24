@@ -3,7 +3,7 @@ import os
 
 from icecream import ic
 
-from app.dao.base import HeaderDao, TermsDao, LandingDao, JsonLandingDao, get_bonuses_for_block_bonus, get_socials_for_block_footer, get_blocks_for_interactive
+from app.dao.base import HeaderDao, TermsDao, LandingDao, JsonLandingDao, get_socials_for_block_footer
 
 from app.view.base_view import ModelViewBase
 

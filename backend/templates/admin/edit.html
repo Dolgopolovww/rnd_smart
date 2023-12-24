@@ -1,0 +1,14 @@
+{% extends 'admin/model/edit.html' %}
+
+{% block head %}
+  {{ super()}}
+  {{ ckeditor.load_code_theme() }}
+{% endblock head %}
+
+{% block tail %}
+  {{ super() }}
+  {{ ckeditor.load() }}
+  {{ ckeditor.config(name='title')}}
+  {{ ckeditor.config(name='description')}}
+  {{ ckeditor.config(name='text', height=700)}}
+{% endblock tail %}

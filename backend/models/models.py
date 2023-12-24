@@ -128,7 +128,7 @@ association_table_block_bonuses = Table('association_bonus', Base.metadata,
     Column('block_bonuses_id', Integer, ForeignKey('block_bonuses.id'))
 )
 
-
+#
 class Bonus(Base):
     __tablename__ = 'bonuses'
 

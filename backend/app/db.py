@@ -3,7 +3,7 @@ from typing import Any
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
 from sqlalchemy import create_engine, JSON
 
-from config import settings
+from config_settings import settings
 
 sync_engine = create_engine(
     url=settings.database_url,

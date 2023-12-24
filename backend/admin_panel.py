@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_admin import AdminIndexView, expose, Admin, BaseView
 from flask import request, jsonify
+from flask_ckeditor import CKEditor
 
 from app.view.block_footer_view import ModelViewBlockFooter
 from app.view.block_header_view import ModelViewBlockHeader
@@ -9,12 +10,12 @@ from app.view.social_view import ModelViewSocial
 from app.view.landing_view import ModelViewLanding
 
 from app.view.success_popup_view import ModelViewSuccessPopup
-from config import settings
+from config_settings import settings
 from app.dao.base import ButtonDao, LandingDao, JsonLandingDao
 
 from models.models import Role, Bonus, Banner, Button, ValueBonus, TypeBonus, \
     BlockBonus, User, UserSelection, Bookmaker, Landing, \
-    Social, BlockFooter, FooterSocial, Interactive, InteractiveCard, BlockHeader, BlockMain, \
+    Social, BlockFooter, FooterSocial, Interactive, InteractiveCard, BlockHeader, \
     AddBlock, SuccessPopup, TermsPopup, JsonLanding, ChampGroup, ChampTeam
 
 from flask_sqlalchemy import SQLAlchemy
@@ -106,7 +107,9 @@ class DashBoardView(AdminIndexView):
         else:
             return jsonify({'error': 'Not found'}), 404
 
-
+app_flask.config.from_pyfile("config.py", silent=True)
+ckeditor = CKEditor()
+ckeditor.init_app(app_flask)
 admin = Admin(app_flask, name='Template Engine', template_mode='bootstrap3', index_view=DashBoardView(), endpoint='admin')
 
 admin.add_view(ModelViewBase(Button, db.session, name="Кнопка", category="Элементы"))
@@ -120,7 +123,7 @@ admin.add_view(ModelViewBase(Social, db.session, name="Соц. сети", catego
 admin.add_view(ModelViewBase(InteractiveCard, db.session, name="Карточки выбора БК", category="Интерактивный блок"))
 admin.add_view(ModelViewBase(Interactive, db.session, name="Блок Выбор БК", category="Интерактивный блок"))
 #admin.add_view(ModelViewBase(InteractiveInteractiveCard, db.session, name="Наполнение блока выбора БК", category="Интерактивный блок"))
-admin.add_view(ModelViewBase(InteractiveInteractiveCard, db.session, name="Блок Чемпионат", category="Интерактивный блок"))
+#admin.add_view(ModelViewBase(InteractiveInteractiveCard, db.session, name="Блок Чемпионат", category="Интерактивный блок"))
 admin.add_view(ModelViewBase(ChampGroup, db.session, name="Группы чемпионата", category="Интерактивный блок"))
 admin.add_view(ModelViewBase(ChampTeam, db.session, name="Команды Чемпионата", category="Интерактивный блок"))
 
@@ -129,7 +132,7 @@ admin.add_view(ModelViewBase(ChampTeam, db.session, name="Команды Чем�
 admin.add_view(ModelViewBase(TermsPopup, db.session, name="Terms Popup", category="Блоки"))
 admin.add_view(ModelViewBase(BlockHeader, db.session, name="Block Headers", category="Блоки"))
 admin.add_view(ModelViewBanner(Banner, db.session, name="Banners", category="Блоки"))
-admin.add_view(ModelViewBase(BlockMain, db.session, name="Block Mains", category="Блоки"))
+#admin.add_view(ModelViewBase(BlockMain, db.session, name="Block Mains", category="Блоки"))
 admin.add_view(ModelViewBase(SuccessPopup, db.session, name="Блок success popup", category="Блоки"))
 admin.add_view(ModelViewBase(BlockBonus, db.session, name="Block Bonuses", category="Блоки"))
 #admin.add_view(ModelViewBase(BonusBlockBonus, db.session, name="Наполнение блока бонусов", category="Блоки"))
